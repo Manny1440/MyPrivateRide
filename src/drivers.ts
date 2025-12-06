@@ -36,3 +36,5 @@ export const drivers: DriverProfile[] = [
     tagline: "Airport transfers made easy.",
     heroImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Tesla Model Y"
+  }
+];
