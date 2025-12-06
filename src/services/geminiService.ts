@@ -1,6 +1,14 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { BookingRequest, BookingResponse, DriverProfile } from "../types";
 
+// This tells TypeScript that 'process.env.API_KEY' exists, so it doesn't throw a build error.
+// The actual value is injected by vite.config.ts during the build.
+declare const process: {
+  env: {
+    API_KEY: string;
+  }
+};
+
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateBookingConfirmation = async (
@@ -45,7 +53,7 @@ export const generateBookingConfirmation = async (
             travelTips: { type: Type.STRING },
             emailSubject: { type: Type.STRING },
             emailBody: { type: Type.STRING },
-            bookingRef: { type: Type.STRING },
+            bookingRef: { type: Type.STRING }, // Include purely to satisfy schema, we use the passed one mostly
           },
         },
       },
@@ -58,6 +66,7 @@ export const generateBookingConfirmation = async (
     return { ...parsed, bookingRef };
   } catch (error) {
     console.error("Gemini API Error:", error);
+    // Fallback in case of API error
     return {
       confirmationMessage: `Booking received! ${driver.driverName} will contact you shortly.`,
       estimatedDuration: "Varies by traffic",
