@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BookingForm from './components/BookingForm';
 import { drivers } from './drivers';
 import { DriverProfile } from './types';
-import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff } from 'lucide-react';
+import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, QrCode, Download } from 'lucide-react';
 
 /* --- SHARED COMPONENTS --- */
 
@@ -119,12 +119,71 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
   );
 };
 
+const DriverToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; driver: DriverProfile }> = ({ isOpen, onClose, driver }) => {
+  if (!isOpen) return null;
+
+  // Generate QR Code URL using a free reliable API
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.href)}`;
+
+  return (
+    <div className="fixed inset-0 z-[70] overflow-y-auto" role="dialog" aria-modal="true">
+      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" onClick={onClose}></div>
+        <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+        <div className="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+          <div className="bg-white px-4 pt-5 pb-4 sm:p-6">
+            <div className="flex justify-between items-start mb-4">
+               <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                 <QrCode className="w-5 h-5 text-brand-600" />
+                 Driver Marketing Kit
+               </h3>
+               <button onClick={onClose} className="bg-gray-100 rounded-full p-1 hover:bg-gray-200">
+                 <X className="w-5 h-5 text-gray-500" />
+               </button>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="bg-white p-4 border-2 border-dashed border-gray-300 rounded-xl mb-4">
+                <img src={qrUrl} alt="Driver QR Code" className="w-48 h-48" />
+              </div>
+              <p className="text-sm text-center text-gray-600 mb-6">
+                This QR code links directly to <strong>{driver.businessName}</strong>.
+              </p>
+
+              <div className="bg-blue-50 p-4 rounded-lg text-sm text-blue-800 mb-4 w-full">
+                <strong>💡 How to use:</strong>
+                <ul className="list-disc pl-5 mt-1 space-y-1">
+                  <li>Show this to passengers to scan.</li>
+                  <li>Save the image and print it on business cards.</li>
+                  <li>Share it on your WhatsApp status.</li>
+                </ul>
+              </div>
+
+              <a 
+                href={qrUrl} 
+                download="my-qr-code.png"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                Open Image to Save
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 /* --- SUB-APPS --- */
 
 // 1. THE DRIVER APP (What customers see when they book Harry)
 const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ driver, onBack }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPricingOpen, setIsPricingOpen] = useState(false);
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
 
   // Standardized Theme Colors (Teal for everyone)
   const themeClass = 'text-brand-500';
@@ -146,6 +205,7 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       <OfflineBanner />
       <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
+      <DriverToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} driver={driver} />
       
       {/* Navigation */}
       <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-lg">
@@ -282,6 +342,12 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
               &copy; {new Date().getFullYear()} {driver.businessName}. Powered by MyPrivateRide.
             </p>
             <div className="flex gap-4">
+                 <button 
+                  onClick={() => setIsToolsOpen(true)}
+                  className="text-xs text-brand-400 hover:text-brand-300 transition-colors bg-slate-800 px-3 py-1 rounded-full border border-slate-700 hover:border-brand-500 flex items-center gap-1"
+                >
+                  <QrCode className="w-3 h-3" /> Driver Tools
+                </button>
                 <button 
                 onClick={() => setIsPricingOpen(true)}
                 className="text-xs text-brand-400 hover:text-brand-300 transition-colors bg-slate-800 px-3 py-1 rounded-full border border-slate-700 hover:border-brand-500"
