@@ -40,7 +40,7 @@ export const drivers: DriverProfile[] = [
   },
   // --- NEW DRIVER ADDED BELOW ---
   {
-    id: "Avtar", // <--- CHANGE THIS to determine their URL (e.g. ?driver=david)
+    id: "avtar", // <--- CHANGE THIS to determine their URL (e.g. ?driver=david)
     businessName: "Avtar's PrivateRide",
     driverName: "Avtar",
     phone: "+61402496021", // <--- Enter real phone (International format)
@@ -52,3 +52,4 @@ export const drivers: DriverProfile[] = [
     vehicleType: "Toyota Kluger"
   }
 ];
+
