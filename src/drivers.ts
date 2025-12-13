@@ -1,3 +1,4 @@
+
 import { DriverProfile } from "./types";
 
 export const drivers: DriverProfile[] = [
@@ -36,5 +37,18 @@ export const drivers: DriverProfile[] = [
     tagline: "Airport transfers made easy.",
     heroImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Tesla Model Y"
+  },
+  // --- NEW DRIVER ADDED BELOW ---
+  {
+    id: "Avtar", // <--- CHANGE THIS to determine their URL (e.g. ?driver=david)
+    businessName: "Avtar's PrivateRide",
+    driverName: "Avtar",
+    phone: "+61402496021", // <--- Enter real phone (International format)
+    email: "avtar@gmail.com", // <--- Enter real email
+    location: "Melbourne Metro",
+    themeColor: "teal",
+    tagline: "Executive travel for business professionals.",
+    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop", // You can keep this image or find a new one on Unsplash
+    vehicleType: "Toyota Kluger"
   }
 ];
