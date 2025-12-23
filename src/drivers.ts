@@ -51,5 +51,17 @@ export const drivers: DriverProfile[] = [
     heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop", // You can keep this image or find a new one on Unsplash
     vehicleType: "Toyota Kluger"
   }
+  {
+    id: "inder", // <--- CHANGE THIS to determine their URL (e.g. ?driver=david)
+    businessName: "inder's PrivateRide",
+    driverName: "Inder",
+    phone: "+61421914654", // <--- Enter real phone (International format)
+    email: "ipsk2005@yahoo.com", // <--- Enter real email
+    location: "Melbourne Metro & Airport",
+    themeColor: "teal",
+    tagline: "Executive travel for business professionals.",
+    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop", // You can keep this image or find a new one on Unsplash
+    vehicleType: "Toyota Camry"
 ];
+
 
