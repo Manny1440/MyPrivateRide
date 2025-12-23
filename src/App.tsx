@@ -122,7 +122,6 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
 const DriverToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; driver: DriverProfile }> = ({ isOpen, onClose, driver }) => {
   if (!isOpen) return null;
 
-  // Generate QR Code URL using a free reliable API
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.href)}`;
 
   return (
@@ -161,7 +160,6 @@ const DriverToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; driver:
 
               <a 
                 href={qrUrl} 
-                download="my-qr-code.png"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-3 rounded-lg font-bold hover:bg-slate-800 transition-colors"
@@ -179,13 +177,11 @@ const DriverToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; driver:
 
 /* --- SUB-APPS --- */
 
-// 1. THE DRIVER APP (What customers see when they book Harry)
 const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ driver, onBack }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPricingOpen, setIsPricingOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
 
-  // Standardized Theme Colors (Teal for everyone)
   const themeClass = 'text-brand-500';
   const buttonClass = 'bg-brand-500 hover:bg-brand-400 text-brand-950';
 
@@ -207,7 +203,6 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
       <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
       <DriverToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} driver={driver} />
       
-      {/* Navigation */}
       <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
@@ -235,14 +230,9 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section id="home" className="relative bg-slate-900 overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src={driver.heroImage}
-            alt="Premium Car Interior" 
-            className="w-full h-full object-cover opacity-30 transform -scale-x-100"
-          />
+          <img src={driver.heroImage} alt="Premium Car Interior" className="w-full h-full object-cover opacity-30 transform -scale-x-100" />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 to-slate-900/40"></div>
         </div>
         
@@ -251,12 +241,8 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
             <div className="inline-flex items-center gap-2 bg-slate-800/80 backdrop-blur-sm px-4 py-1.5 rounded-full text-slate-100 text-sm font-medium mb-6 border border-slate-700">
                 <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" /> Rated #1 for Service in {driver.location}
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
-              {driver.tagline}
-            </h1>
-            <p className="mt-4 max-w-lg text-xl text-gray-300 mb-8">
-              Skip the cancellations and surge pricing. Book {driver.driverName} directly for a reliable, safe {driver.vehicleType} experience.
-            </p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">{driver.tagline}</h1>
+            <p className="mt-4 max-w-lg text-xl text-gray-300 mb-8">Skip the cancellations and surge pricing. Book {driver.driverName} directly for a reliable, safe {driver.vehicleType} experience.</p>
             <div className="flex flex-col sm:flex-row gap-4">
                 <a href="#book-now" onClick={scrollToBooking} className={`inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-lg ${buttonClass} md:py-4 md:text-lg md:px-10 transition-all shadow-lg cursor-pointer`}>
                   Book {driver.driverName}
@@ -266,36 +252,25 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         </div>
       </section>
 
-      {/* Feature Section */}
       <section id="about" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className={`text-base ${themeClass} font-semibold tracking-wide uppercase`}>The Difference</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Why clients prefer {driver.businessName}
-            </p>
+            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">Why clients prefer {driver.businessName}</p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {/* Features remain generic but relevant to all drivers */}
             <div className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl hover:shadow-lg transition-shadow duration-300">
-              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mb-6">
-                <Shield className="h-8 w-8" />
-              </div>
+              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mb-6"><Shield className="h-8 w-8" /></div>
               <h3 className="text-lg leading-6 font-bold text-gray-900 mb-2">Immaculate Cleanliness</h3>
               <p className="text-gray-500">My vehicle is detailed daily. Experience a fresh, spotless environment every time.</p>
             </div>
             <div className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl hover:shadow-lg transition-shadow duration-300">
-              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-green-600 mb-6">
-                <Clock className="h-8 w-8" />
-              </div>
+              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-green-600 mb-6"><Clock className="h-8 w-8" /></div>
               <h3 className="text-lg leading-6 font-bold text-gray-900 mb-2">Always On Time</h3>
               <p className="text-gray-500">Reliability is my hallmark. I arrive early so you never have to worry.</p>
             </div>
             <div className="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl hover:shadow-lg transition-shadow duration-300">
-              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 text-yellow-600 mb-6">
-                <Smile className="h-8 w-8" />
-              </div>
+              <div className="flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 text-yellow-600 mb-6"><Smile className="h-8 w-8" /></div>
               <h3 className="text-lg leading-6 font-bold text-gray-900 mb-2">Friendly Service</h3>
               <p className="text-gray-500">A professional yet warm atmosphere. I adapt to your needs.</p>
             </div>
@@ -303,7 +278,6 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         </div>
       </section>
 
-      {/* Booking Section */}
       <section id="book-now" className="py-16 bg-slate-50 relative scroll-mt-24">
         <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-white to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -311,53 +285,29 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         </div>
       </section>
 
-      {/* Footer */}
       <footer id="contact" className="bg-slate-900 text-white pt-16 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">{driver.businessName}</h3>
-              <p className="text-slate-400 max-w-sm mb-6">
-                Providing exceptional private transport services in {driver.location}.
-              </p>
+              <p className="text-slate-400 max-w-sm mb-6">Providing exceptional private transport services in {driver.location}.</p>
             </div>
-            
             <div>
               <h4 className="text-lg font-semibold text-white mb-6">Contact Info</h4>
               <ul className="space-y-4">
-                <li className="flex items-center text-slate-300">
-                  <Phone className="h-5 w-5 mr-3 text-brand-500" />
-                  <span>{driver.phone}</span>
-                </li>
-                <li className="flex items-center text-slate-300">
-                  <Mail className="h-5 w-5 mr-3 text-brand-500" />
-                  <span>{driver.email}</span>
-                </li>
+                <li className="flex items-center text-slate-300"><Phone className="h-5 w-5 mr-3 text-brand-500" /><span>{driver.phone}</span></li>
+                <li className="flex items-center text-slate-300"><Mail className="h-5 w-5 mr-3 text-brand-500" /><span>{driver.email}</span></li>
               </ul>
             </div>
           </div>
-          
           <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-sm">
-              &copy; {new Date().getFullYear()} {driver.businessName}. Powered by MyPrivateRide.
-            </p>
+            <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} {driver.businessName}. Powered by MyPrivateRide.</p>
             <div className="flex gap-4">
-                 <button 
-                  onClick={() => setIsToolsOpen(true)}
-                  className="text-xs text-brand-400 hover:text-brand-300 transition-colors bg-slate-800 px-3 py-1 rounded-full border border-slate-700 hover:border-brand-500 flex items-center gap-1"
-                >
+                <button onClick={() => setIsToolsOpen(true)} className="text-xs text-brand-400 hover:text-brand-300 transition-colors bg-slate-800 px-3 py-1 rounded-full border border-slate-700 hover:border-brand-500 flex items-center gap-1">
                   <QrCode className="w-3 h-3" /> Driver Tools
                 </button>
-                <button 
-                onClick={() => setIsPricingOpen(true)}
-                className="text-xs text-brand-400 hover:text-brand-300 transition-colors bg-slate-800 px-3 py-1 rounded-full border border-slate-700 hover:border-brand-500"
-                >
-                Get your own app
-                </button>
-                {/* Back button for demo navigation */}
-                <button onClick={onBack} className="text-xs text-slate-400 hover:text-white flex items-center gap-1">
-                    <ArrowLeft className="w-3 h-3" /> Back to Demo List
-                </button>
+                <button onClick={() => setIsPricingOpen(true)} className="text-xs text-brand-400 hover:text-brand-300 transition-colors bg-slate-800 px-3 py-1 rounded-full border border-slate-700 hover:border-brand-500">Get your own app</button>
+                <button onClick={onBack} className="text-xs text-slate-400 hover:text-white flex items-center gap-1"><ArrowLeft className="w-3 h-3" /> Back to Demo List</button>
             </div>
           </div>
         </div>
@@ -366,7 +316,6 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
   );
 };
 
-// 2. THE LANDING PAGE (Selling the software to drivers)
 const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDriverSelect }) => {
     const [isPricingOpen, setIsPricingOpen] = useState(false);
 
@@ -378,12 +327,9 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             <nav className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="bg-brand-600 p-2 rounded-lg">
-                            <Car className="w-5 h-5 text-white" />
-                        </div>
+                        <div className="bg-brand-600 p-2 rounded-lg"><Car className="w-5 h-5 text-white" /></div>
                         <span className="font-bold text-xl tracking-tight">MyPrivateRide</span>
                     </div>
-                    {/* Header Action Button - Opens Pricing Modal now */}
                     <div className="flex gap-4">
                         <button onClick={() => setIsPricingOpen(true)} className="bg-brand-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-brand-700">Start Free Trial</button>
                     </div>
@@ -392,39 +338,24 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
 
             <section className="relative pt-20 pb-32 overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                    <div className="inline-block bg-brand-50 text-brand-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-2">
-                        For Professional Drivers in Australia 🇦🇺
-                    </div>
+                    <div className="inline-block bg-brand-50 text-brand-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-2">For Professional Drivers in Australia 🇦🇺</div>
                     <div className="mb-8">
-                        <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-sm border border-green-200 animate-pulse">
-                            🎉 Special Launch Offer: Get 3 Months FREE
-                        </span>
+                        <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full font-bold text-sm border border-green-200 animate-pulse">🎉 Special Launch Offer: Get 3 Months FREE</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
-                        Your Own <span className="text-brand-600">Private Booking App</span><br />
-                        in 60 Seconds.
-                    </h1>
-                    <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10">
-                        Stop losing 30% to Uber. Give your private clients a professional way to book you directly. Includes AI confirmations and WhatsApp integration.
-                    </p>
+                    <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">Your Own <span className="text-brand-600">Private Booking App</span><br />in 60 Seconds.</h1>
+                    <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10">Stop losing 30% to Uber. Give your private clients a professional way to book you directly. Includes AI confirmations and WhatsApp integration.</p>
                     <div className="flex justify-center gap-4">
-                        <button onClick={() => setIsPricingOpen(true)} className="bg-brand-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 shadow-xl shadow-brand-500/20 transition-all">
-                            Create My App Now
-                        </button>
+                        <button onClick={() => setIsPricingOpen(true)} className="bg-brand-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 shadow-xl shadow-brand-500/20 transition-all">Create My App Now</button>
                     </div>
                     
                     <div className="mt-16 text-sm text-gray-500">
                         <p className="mb-4 font-semibold uppercase tracking-wider">See Live Demos</p>
                         <div className="flex justify-center gap-4 flex-wrap">
-                            <button onClick={() => onDriverSelect('harry')} className="flex items-center gap-2 bg-slate-50 border border-gray-200 px-4 py-2 rounded-lg hover:bg-white hover:border-brand-500 transition-colors cursor-pointer group">
-                                <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-125 transition-transform"></span> Harry's PrivateRide
-                            </button>
-                            <button onClick={() => onDriverSelect('gary')} className="flex items-center gap-2 bg-slate-50 border border-gray-200 px-4 py-2 rounded-lg hover:bg-white hover:border-brand-500 transition-colors cursor-pointer group">
-                                <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-125 transition-transform"></span> Gary's PrivateRide
-                            </button>
-                            <button onClick={() => onDriverSelect('tom')} className="flex items-center gap-2 bg-slate-50 border border-gray-200 px-4 py-2 rounded-lg hover:bg-white hover:border-brand-500 transition-colors cursor-pointer group">
-                                <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-125 transition-transform"></span> Tom's PrivateRide
-                            </button>
+                            {drivers.map((d) => (
+                              <button key={d.id} onClick={() => onDriverSelect(d.id)} className="flex items-center gap-2 bg-slate-50 border border-gray-200 px-4 py-2 rounded-lg hover:bg-white hover:border-brand-500 transition-colors cursor-pointer group">
+                                <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-125 transition-transform"></span> {d.businessName}
+                              </button>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -453,7 +384,6 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                 </div>
             </section>
 
-             {/* Footer for Landing Page */}
              <footer className="bg-white border-t border-gray-100 py-12 mt-auto">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
                     <div className="flex items-center gap-2 mb-4">
@@ -463,30 +393,23 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                     <div className="flex gap-8 mb-8">
                         <button onClick={() => setIsPricingOpen(true)} className="text-gray-600 hover:text-brand-600 text-sm font-medium">Pricing</button>
                     </div>
-                    <p className="text-gray-400 text-sm">
-                        &copy; {new Date().getFullYear()} MyPrivateRide. All rights reserved.
-                    </p>
+                    <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} MyPrivateRide. All rights reserved.</p>
                 </div>
             </footer>
         </div>
     );
 }
 
-/* --- MAIN ROUTER --- */
-
 const App: React.FC = () => {
   const [currentDriver, setCurrentDriver] = useState<DriverProfile | null>(null);
 
   useEffect(() => {
-    // Check URL params for ?driver=id
     const params = new URLSearchParams(window.location.search);
     const driverId = params.get('driver');
-    
     if (driverId) {
       const foundDriver = drivers.find(d => d.id === driverId);
       if (foundDriver) {
         setCurrentDriver(foundDriver);
-        // Update Page Title
         document.title = foundDriver.businessName;
       }
     }
@@ -497,29 +420,19 @@ const App: React.FC = () => {
     if (foundDriver) {
         setCurrentDriver(foundDriver);
         document.title = foundDriver.businessName;
-        try {
-            window.history.pushState({}, '', `?driver=${id}`);
-        } catch (e) {
-            // ignore
-        }
+        try { window.history.pushState({}, '', `?driver=${id}`); } catch (e) {}
     }
   };
 
   const handleBackToLanding = () => {
     setCurrentDriver(null);
     document.title = "MyPrivateRide";
-    try {
-        window.history.pushState({}, '', window.location.pathname);
-    } catch (e) {
-        // ignore
-    }
+    try { window.history.pushState({}, '', window.location.pathname); } catch (e) {}
   };
 
-  // ROUTING LOGIC
   if (currentDriver) {
     return <DriverApp driver={currentDriver} onBack={handleBackToLanding} />;
   }
-
   return <LandingPage onDriverSelect={handleDriverSelect} />;
 };
 
