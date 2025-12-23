@@ -1,9 +1,9 @@
-
 import { DriverProfile } from "./types";
 
 export const drivers: DriverProfile[] = [
   {
     id: "harry",
+    // Trial Start: 2024-05-01
     businessName: "Harry's PrivateRide",
     driverName: "Harry",
     phone: "+61413948080",
@@ -16,6 +16,7 @@ export const drivers: DriverProfile[] = [
   },
   {
     id: "gary",
+    // Trial Start: 2024-05-10
     businessName: "Gary's PrivateRide",
     driverName: "Gary",
     phone: "+61400000002",
@@ -28,6 +29,7 @@ export const drivers: DriverProfile[] = [
   },
   {
     id: "tom",
+    // Trial Start: 2024-05-12
     businessName: "Tom's PrivateRide",
     driverName: "Tom",
     phone: "+61400000003",
@@ -38,30 +40,32 @@ export const drivers: DriverProfile[] = [
     heroImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Tesla Model Y"
   },
-  // --- NEW DRIVER ADDED BELOW ---
   {
-    id: "avtar", // <--- CHANGE THIS to determine their URL (e.g. ?driver=david)
+    id: "avtar",
+    // Trial Start: 2024-05-20
     businessName: "Avtar's PrivateRide",
     driverName: "Avtar",
-    phone: "+61402496021", // <--- Enter real phone (International format)
-    email: "avtar@gmail.com", // <--- Enter real email
+    phone: "+61402496021",
+    email: "avtar@gmail.com",
     location: "Melbourne Metro",
     themeColor: "teal",
     tagline: "Executive travel for business professionals.",
-    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop", // You can keep this image or find a new one on Unsplash
+    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Kluger"
-  }
+  },
   {
-    id: "inder", // <--- CHANGE THIS to determine their URL (e.g. ?driver=david)
-    businessName: "inder's PrivateRide",
+    id: "inder",
+    // Trial Start: 2024-05-21
+    businessName: "Inder's PrivateRide",
     driverName: "Inder",
-    phone: "+61421914654", // <--- Enter real phone (International format)
-    email: "ipsk2005@yahoo.com", // <--- Enter real email
+    phone: "+61421914654",
+    email: "ipsk2005@yahoo.com",
     location: "Melbourne Metro & Airport",
     themeColor: "teal",
     tagline: "Executive travel for business professionals.",
-    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop", // You can keep this image or find a new one on Unsplash
+    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Camry"
+  }
 ];
 
 
