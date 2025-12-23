@@ -55,7 +55,7 @@ export const drivers: DriverProfile[] = [
   },
   {
     id: "inder",
-    // Trial Start: 2024-05-21
+    // Trial Start: 2025-12-23
     businessName: "Inder's PrivateRide",
     driverName: "Inder",
     phone: "+61421914654",
@@ -63,9 +63,10 @@ export const drivers: DriverProfile[] = [
     location: "Melbourne Metro & Airport",
     themeColor: "teal",
     tagline: "Executive travel for business professionals.",
-    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Camry"
   }
 ];
+
 
 
