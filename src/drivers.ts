@@ -8,7 +8,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Harry",
     phone: "+61413948080",
     email: "harchand2000@yahoo.com",
-    location: "Melbourne Metro & Airport",
+    location: "Melbourne Metro, Melbourne South-East & Airport",
     themeColor: "teal",
     tagline: "Professional. Punctual. Private.",
     heroImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop",
@@ -21,7 +21,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Gary",
     phone: "+61400000002",
     email: "gary@privateride.com.au",
-    location: "Melbourne CBD",
+    location: "Melbourne CBD, Melbourne North, Melbourne West & Melbourne South-East",
     themeColor: "teal",
     tagline: "Your reliable local driver.",
     heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
@@ -47,7 +47,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Avtar",
     phone: "+61402496021",
     email: "avtar@gmail.com",
-    location: "Melbourne Metro",
+    location: "Melbourne West, Melbourne North, Melbourne South East and Melbourne Airport",
     themeColor: "teal",
     tagline: "Executive travel for business professionals.",
     heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
@@ -60,13 +60,14 @@ export const drivers: DriverProfile[] = [
     driverName: "Inder",
     phone: "+61421914654",
     email: "ipsk2005@yahoo.com",
-    location: "Melbourne Metro & Airport",
+    location: "Melbourne Metro, Airport, Melbourne South East",
     themeColor: "teal",
     tagline: "Executive travel for business professionals.",
     heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Camry"
   }
 ];
+
 
 
 
