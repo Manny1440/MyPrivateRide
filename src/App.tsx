@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import BookingForm from './components/BookingForm';
 import { drivers } from './drivers';
 import { DriverProfile } from './types';
-// Added MapPin to the imports from lucide-react to fix missing reference in DriverDashboard
 import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, UserCircle, ArrowRight, Copy, MessageCircle, MapPin } from 'lucide-react';
 
 /* --- UTILS --- */
@@ -11,94 +10,6 @@ const getDisplayName = (driver: DriverProfile) => {
   if (driver.surname) return `${driver.driverName} ${driver.surname}`;
   if (driver.surnameInitial) return `${driver.driverName} ${driver.surnameInitial}.`;
   return driver.driverName;
-};
-
-/* --- PRIVATE DRIVER DASHBOARD --- */
-
-const DriverDashboard: React.FC<{ driver: DriverProfile; data: string; onBack: () => void }> = ({ driver, data, onBack }) => {
-    const [booking, setBooking] = useState<any>(null);
-    const [copied, setCopied] = useState(false);
-
-    useEffect(() => {
-        try {
-            setBooking(JSON.parse(atob(data)));
-        } catch (e) {
-            console.error("Failed to decode booking data");
-        }
-    }, [data]);
-
-    if (!booking) return <div className="min-h-screen flex items-center justify-center">Loading Booking...</div>;
-
-    const handleCopyAndReply = () => {
-        const rawPhone = booking.clientPhone.replace(/[^0-9]/g, '');
-        // If it starts with 0 and it's Australian, replace with +61
-        const formattedPhone = rawPhone.startsWith('0') ? `61${rawPhone.slice(1)}` : rawPhone;
-        const whatsappLink = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(booking.draft)}`;
-        
-        navigator.clipboard.writeText(booking.draft);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-        
-        window.open(whatsappLink, '_blank');
-    };
-
-    return (
-        <div className="min-h-screen bg-slate-50 font-sans p-4 md:p-8">
-            <div className="max-w-xl mx-auto space-y-6">
-                <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-teal-600 p-2 rounded-xl text-white"><Zap className="w-5 h-5" /></div>
-                        <h1 className="font-black uppercase tracking-tighter text-2xl italic">AI Dispatch</h1>
-                    </div>
-                    <button onClick={onBack} className="text-slate-400 font-bold text-xs uppercase hover:text-slate-900 transition-colors">Close</button>
-                </div>
-
-                <div className="bg-white rounded-[2.5rem] p-8 shadow-xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">CLIENT REQUEST {booking.ref}</p>
-                    <h2 className="text-2xl font-black text-slate-900 mb-6">{booking.client}</h2>
-                    
-                    <div className="space-y-4 mb-10">
-                        <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-2xl">
-                            <MapPin className="w-5 h-5 text-teal-600 mt-1" />
-                            <div>
-                                <p className="text-[10px] font-black uppercase text-slate-400">Route</p>
-                                <p className="font-bold text-slate-900 leading-tight">{booking.pickup}</p>
-                                <p className="text-slate-400 font-bold text-xs mt-1">To: {booking.dropoff}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
-                            <Clock className="w-5 h-5 text-slate-400" />
-                            <div>
-                                <p className="text-[10px] font-black uppercase text-slate-400">Time</p>
-                                <p className="font-bold text-slate-900">{booking.time}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-slate-900 rounded-3xl p-6 relative overflow-hidden border border-white/5 shadow-inner">
-                        <div className="absolute top-4 right-6 bg-teal-500 text-teal-950 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
-                            <Zap className="w-3 h-3 fill-teal-950" /> AI Draft Reply
-                        </div>
-                        <p className="text-white/40 text-[10px] font-black uppercase tracking-widest mb-4">Manny's Suggested Message</p>
-                        <p className="text-teal-100 font-medium leading-relaxed italic mb-6">
-                            "{booking.draft}"
-                        </p>
-                        <button 
-                            onClick={handleCopyAndReply}
-                            className="w-full bg-teal-500 hover:bg-teal-400 text-teal-950 font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all uppercase tracking-widest text-xs"
-                        >
-                            <MessageCircle className="w-5 h-5" />
-                            {copied ? "COPIED!" : "Confirm & Send to Client"}
-                        </button>
-                    </div>
-                </div>
-
-                <div className="text-center">
-                    <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Built for {driver.businessName}</p>
-                </div>
-            </div>
-        </div>
-    );
 };
 
 /* --- SHARED COMPONENTS --- */
@@ -159,7 +70,7 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { name: 'Starter', price: '$29', features: ['Custom Booking Link', 'Email Notifications', 'Basic Analytics'], color: 'slate' },
-                { name: 'Professional', price: '$39', features: ['AI Smart Drafts', 'WhatsApp Generator', 'SMS Reminders', 'Priority Support'], color: 'brand', popular: true },
+                { name: 'Professional', price: '$39', features: ['AI Auto-Confirmations', 'WhatsApp Message Generator', 'SMS Alerts', 'Priority Support'], color: 'brand', popular: true },
                 { name: 'Elite', price: '$99', features: ['Multi-Driver Fleet', 'Dispatch Panel', 'Custom Domain', 'White Label App'], color: 'slate' }
               ].map((plan) => (
                 <div key={plan.name} className={`relative p-8 rounded-2xl border transition-all hover:shadow-xl ${plan.popular ? 'border-brand-500 border-2 bg-brand-50/10' : 'border-slate-100 bg-white'}`}>
@@ -384,20 +295,16 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                     <div className="mt-8">
                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">SEE LIVE DEMOS</p>
                         <div className="flex justify-center gap-3 md:gap-4 flex-wrap max-w-3xl mx-auto">
-                            {['manny', 'harry', 'gary', 'avtar', 'inder', 'tom'].map(id => {
-                              const d = drivers.find(drv => drv.id === id);
-                              if (!d) return null;
-                              return (
+                            {drivers.map(d => (
                                 <button 
-                                  key={id}
-                                  onClick={() => onDriverSelect(id)} 
+                                  key={d.id}
+                                  onClick={() => onDriverSelect(d.id)} 
                                   className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-5 py-3 rounded-full hover:bg-white hover:border-teal-500 transition-all cursor-pointer group shadow-sm"
                                 >
                                   <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-150 transition-transform shadow-[0_0_8px_rgba(20,184,166,0.5)]"></span> 
                                   <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{d.businessName}</span>
                                 </button>
-                              );
-                            })}
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -407,8 +314,8 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             <section className="bg-slate-50 py-32 border-y border-slate-100">
               <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-20">
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic mb-6">AI Drafts That Build Trust.</h2>
-                  <p className="text-slate-500 font-medium max-w-xl mx-auto">When a booking arrives, our AI instantly prepares a professional draft for you. Just tap 'Send' to confirm via WhatsApp or Email.</p>
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic mb-6">Professional Bookings, No Fuss.</h2>
+                  <p className="text-slate-500 font-medium max-w-xl mx-auto">Let your customers book you through a clean interface that sends everything you need to WhatsApp in one tap.</p>
                 </div>
 
                 <div className="grid md:grid-cols-12 gap-12 items-center">
@@ -438,10 +345,10 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                       </div>
                     </div>
 
-                    {/* SMART REPLY CARD */}
+                    {/* WHATSAPP CARD */}
                     <div className="bg-[#0f172a] p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md relative border border-white/5">
-                      <div className="absolute top-6 right-8 bg-teal-500 text-[#042f2e] px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-lg shadow-teal-500/20">
-                        <Zap className="w-3 h-3 fill-teal-950" /> MYPRIVATERIDE AI
+                      <div className="absolute top-6 right-8 bg-[#25D366] text-white px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-lg shadow-[#25D366]/20">
+                        <MessageCircle className="w-3 h-3 fill-white" /> WHATSAPP DIRECT
                       </div>
                       <div className="flex items-center gap-4 mb-8">
                         <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center text-[#042f2e] shadow-lg shadow-teal-500/20"><Smartphone /></div>
@@ -450,24 +357,24 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                         </div>
                       </div>
                       <div className="space-y-4">
-                        <div className="bg-slate-800/60 p-5 rounded-2xl rounded-bl-none text-white text-sm font-medium leading-relaxed border border-white/5">
-                          "Hi John, I've received your request for 5:30 AM tomorrow at Melbourne Airport. I'll be there in the Audi A8. Looking forward to driving you again!"
-                        </div>
-                        <div className="bg-slate-800/40 p-4 rounded-xl text-slate-400 text-xs font-bold border border-white/5 flex items-center gap-2">
-                          <Check className="w-4 h-4 text-teal-500" />
-                          <span>Travel Tip: 5:30am can be chilly, I'll have the seat heaters ready!</span>
+                        <div className="bg-slate-800/60 p-5 rounded-2xl rounded-bl-none text-white text-xs font-medium leading-relaxed border border-white/5">
+                          <p className="text-[#25D366] font-black mb-2 uppercase">NEW PRIVATE BOOKING</p>
+                          👤 Client: John Smith<br/>
+                          📍 From: Melb Airport<br/>
+                          🏁 To: Sydney Flight<br/>
+                          📅 When: Tomorrow @ 5:30am
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="md:col-span-6 md:pl-16">
-                    <h3 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic mb-10 leading-tight">Professionalism<br/>On Autopilot.</h3>
+                    <h3 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic mb-10 leading-tight">Elevate Your<br/>Independence.</h3>
                     <ul className="space-y-10">
                       {[
-                        { title: 'Zero Manual Writing', desc: 'The AI draft is ready before you even open your phone. Save hours of typing every week.', icon: Clock },
-                        { title: 'Fleet-Grade Reliability', desc: 'Every client gets a polite, structured response that makes you look like a top-tier operator.', icon: Shield },
-                        { title: 'Instant Confirmation', desc: 'One tap opens WhatsApp with the message already typed. You just hit send.', icon: Zap }
+                        { title: 'Own Your Clients', desc: 'No more algorithms. Your customers book you directly on your branded portal.', icon: Clock },
+                        { title: 'Fixed Rate Trust', desc: 'Clients love knowing the rate upfront. Build long-term loyalty with every ride.', icon: Shield },
+                        { title: 'Modern Interface', desc: 'Look like a global travel company while keeping the personal local touch.', icon: Zap }
                       ].map((item, idx) => (
                         <li key={idx} className="flex gap-6 group">
                           <div className="shrink-0 w-16 h-16 bg-white rounded-3xl shadow-sm flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white transition-all"><item.icon className="w-7 h-7" /></div>
@@ -492,13 +399,13 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             <section className="bg-slate-950 py-32">
               <div className="max-w-7xl mx-auto px-4 text-center">
                 <h2 className="text-5xl md:text-[5rem] font-black text-white italic tracking-tighter uppercase mb-24 leading-[0.9]">
-                    Build a Brand,<br/>not just a shift.
+                    No Middleman.<br/>No Commission.
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
                     {[
-                      { icon: Smartphone, title: 'DIRECT WHATSAPP', desc: 'Bookings land in your personal WhatsApp. No dashboards, just direct conversation.' },
-                      { icon: Zap, title: 'AI SMART DRAFTS', desc: 'Our AI drafts professional email confirmations for you instantly. Look like a 5-star fleet.' },
-                      { icon: Globe, title: 'CLIENT LOYALTY', desc: 'Owning the relationship means customers call you first, not an app. Build a secure future.' }
+                      { icon: Smartphone, title: 'DIRECT BOOKING', desc: 'Instant WhatsApp messages containing everything you need to start the ride.' },
+                      { icon: Zap, title: 'AI CONFIRMATION', desc: 'Smart automated responses that let customers know you have received their request.' },
+                      { icon: Globe, title: 'SECURE REVENUE', desc: 'Keep 100% of your earnings. Your app, your business, your profit.' }
                     ].map((benefit, idx) => (
                       <div key={idx} className="bg-[#0f172a]/40 backdrop-blur-md p-14 rounded-[3.5rem] border border-white/5 hover:bg-white/[0.03] transition-all group">
                         <div className="w-16 h-16 bg-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-10 text-teal-950 shadow-[0_0_20px_rgba(20,184,166,0.2)] group-hover:scale-110 transition-transform">
@@ -526,7 +433,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                   <span className="font-bold text-white tracking-tight uppercase">MyPrivateRide</span>
                 </div>
                 <p className="text-slate-500 text-xs font-medium uppercase tracking-widest">
-                  &copy; {new Date().getFullYear()} MyPrivateRide Australia AU. All rights reserved.
+                  &copy; {new Date().getFullYear()} MyPrivateRide Australia AU.
                 </p>
                 <div className="flex gap-6">
                   <button onClick={() => setIsPricingOpen(true)} className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Pricing</button>
@@ -540,25 +447,16 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
 
 const App: React.FC = () => {
   const [currentDriver, setCurrentDriver] = useState<DriverProfile | null>(null);
-  const [isDriverManageMode, setIsDriverManageMode] = useState(false);
-  const [manageData, setManageData] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const driverSlug = params.get('driver');
-    const action = params.get('action');
-    const data = params.get('data');
 
     if (driverSlug) {
       const foundDriver = drivers.find(d => d.id === driverSlug);
       if (foundDriver) {
         setCurrentDriver(foundDriver);
         document.title = foundDriver.businessName;
-        
-        if (action === 'manage' && data) {
-            setIsDriverManageMode(true);
-            setManageData(data);
-        }
       }
     }
   }, []);
@@ -575,23 +473,10 @@ const App: React.FC = () => {
 
   const handleBackToLanding = () => {
     setCurrentDriver(null);
-    setIsDriverManageMode(false);
-    document.title = "MyPrivateRide - Find Your Driver";
+    document.title = "MyPrivateRide - Direct Driver Booking";
     try { window.history.pushState({}, '', window.location.pathname); } catch (e) {}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const closeManageMode = () => {
-    setIsDriverManageMode(false);
-    setManageData(null);
-    if (currentDriver) {
-        try { window.history.pushState({}, '', `?driver=${currentDriver.id}`); } catch (e) {}
-    }
-  };
-
-  if (isDriverManageMode && currentDriver && manageData) {
-      return <DriverDashboard driver={currentDriver} data={manageData} onBack={closeManageMode} />;
-  }
 
   if (currentDriver) {
     return <DriverApp driver={currentDriver} onBack={handleBackToLanding} />;
