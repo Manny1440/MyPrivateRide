@@ -300,19 +300,6 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
 
 const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDriverSelect }) => {
     const [isPricingOpen, setIsPricingOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const filteredDrivers = useMemo(() => {
-        const lower = searchTerm.toLowerCase();
-        return drivers.filter(d => 
-            d.driverName.toLowerCase().includes(lower) || 
-            (d.surnameInitial && d.surnameInitial.toLowerCase().includes(lower)) ||
-            (d.surname && d.surname.toLowerCase().includes(lower)) ||
-            d.location.toLowerCase().includes(lower) || 
-            d.vehicleType.toLowerCase().includes(lower) ||
-            d.businessName.toLowerCase().includes(lower)
-        );
-    }, [searchTerm]);
 
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans">
@@ -459,85 +446,50 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
               </div>
             </section>
 
-            {/* --- CUSTOMER SEARCH / DIRECTORY --- */}
-            <div className="max-w-5xl mx-auto px-4 mt-20 mb-32 relative z-10" id="driver-search">
-                <div className="text-center mb-10">
-                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-2">Looking for a ride?</p>
-                   <h2 className="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Find your local driver</h2>
-                </div>
-                <div className="relative group">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-6 h-6 transition-colors group-focus-within:text-brand-600" />
-                    <input 
-                        type="text" 
-                        placeholder="Search by location, car type, or driver..."
-                        className="w-full pl-16 pr-8 py-8 bg-white rounded-[2.5rem] shadow-2xl border-none focus:ring-4 focus:ring-brand-500/10 text-xl font-medium placeholder:text-slate-300 transition-all border border-slate-50"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-            </div>
-            
-            <section className="pb-32 px-4">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredDrivers.map((d) => (
-                          <button 
-                            key={d.id} 
-                            onClick={() => onDriverSelect(d.id)} 
-                            className="group relative flex flex-col text-left bg-white rounded-[3rem] overflow-hidden border border-slate-100 hover:shadow-2xl hover:border-brand-200 transition-all duration-500"
-                          >
-                            <div className="h-64 w-full overflow-hidden relative">
-                              <img src={d.heroImage} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={d.businessName} />
-                              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 flex items-center gap-1.5 border border-slate-100 shadow-sm">
-                                <MapPin className="w-3 h-3 text-brand-600" /> {d.location}
-                              </div>
-                            </div>
-                            <div className="p-10">
-                              <div className="flex items-center justify-between mb-1">
-                                <h3 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">
-                                    {d.businessName}
-                                </h3>
-                                <div className="bg-brand-50 p-2.5 rounded-2xl text-brand-600 group-hover:bg-brand-600 group-hover:text-white transition-all">
-                                  <ArrowLeft className="w-5 h-5 rotate-180" />
-                                </div>
-                              </div>
-                              <p className="text-brand-600 text-[10px] font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-1.5">
-                                <UserCircle className="w-3 h-3" /> {getDisplayName(d)}
-                              </p>
-                              <p className="text-slate-500 text-sm font-medium mb-8 leading-relaxed line-clamp-2">{d.tagline}</p>
-                              
-                              <div className="flex flex-wrap gap-2 pt-6 border-t border-slate-50">
-                                <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-3 py-1.5 rounded-xl">
-                                  <Car className="w-3.5 h-3.5" /> {d.vehicleType}
-                                </span>
-                                <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-3 py-1.5 rounded-xl">
-                                  <Briefcase className="w-3.5 h-3.5" /> {d.experienceYears}yr Exp
-                                </span>
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <footer className="bg-slate-950 py-20">
+            {/* --- BENEFITS SECTION --- */}
+            <section className="bg-slate-950 py-32">
               <div className="max-w-7xl mx-auto px-4 text-center">
-                <h2 className="text-5xl md:text-8xl font-black text-white italic tracking-tighter uppercase mb-24 leading-[0.8]">Build a brand,<br/>not just a shift.</h2>
-                <div className="grid md:grid-cols-3 gap-12">
+                <h2 className="text-5xl md:text-[5rem] font-black text-white italic tracking-tighter uppercase mb-24 leading-[0.9]">
+                    Build a Brand,<br/>not just a shift.
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
                     {[
-                      { icon: Smartphone, title: 'Direct WhatsApp', desc: 'Bookings land in your personal WhatsApp. No dashboards, just direct conversation.' },
-                      { icon: Zap, title: 'AI Smart Drafts', desc: 'Our AI drafts professional email confirmations for you instantly. Look like a 5-star fleet.' },
-                      { icon: Globe, title: 'Client Loyalty', desc: 'Owning the relationship means customers call you first, not an app. Build a secure future.' }
+                      { icon: Smartphone, title: 'DIRECT WHATSAPP', desc: 'Bookings land in your personal WhatsApp. No dashboards, just direct conversation.' },
+                      { icon: Zap, title: 'AI SMART DRAFTS', desc: 'Our AI drafts professional email confirmations for you instantly. Look like a 5-star fleet.' },
+                      { icon: Globe, title: 'CLIENT LOYALTY', desc: 'Owning the relationship means customers call you first, not an app. Build a secure future.' }
                     ].map((benefit, idx) => (
-                      <div key={idx} className="bg-white/5 backdrop-blur-md p-14 rounded-[3.5rem] border border-white/5 hover:bg-white/[0.07] transition-all">
-                        <div className="w-16 h-16 bg-brand-500 rounded-3xl flex items-center justify-center mx-auto mb-10 text-brand-950 shadow-2xl shadow-brand-500/40"><benefit.icon className="w-8 h-8" /></div>
+                      <div key={idx} className="bg-[#0f172a]/40 backdrop-blur-md p-14 rounded-[3.5rem] border border-white/5 hover:bg-white/[0.03] transition-all group">
+                        <div className="w-16 h-16 bg-brand-500 rounded-3xl flex items-center justify-center mx-auto mb-10 text-brand-950 shadow-[0_0_20px_rgba(20,184,166,0.2)] group-hover:scale-110 transition-transform">
+                            <benefit.icon className="w-8 h-8" />
+                        </div>
                         <h3 className="text-2xl font-black text-white mb-6 uppercase italic tracking-widest">{benefit.title}</h3>
                         <p className="text-slate-400 font-medium leading-relaxed text-lg">{benefit.desc}</p>
                       </div>
                     ))}
                 </div>
-                <button onClick={() => setIsPricingOpen(true)} className="mt-24 px-16 py-8 bg-brand-500 text-brand-950 text-2xl font-black rounded-[2.5rem] hover:bg-brand-400 transition-all uppercase tracking-[0.2em] shadow-2xl shadow-brand-500/30 active:scale-95">Start 3-Month Free Trial</button>
+                <div className="mt-24">
+                  <button onClick={() => setIsPricingOpen(true)} className="px-16 py-6 bg-brand-500 text-brand-950 text-xl font-black rounded-full hover:bg-brand-400 transition-all uppercase tracking-widest shadow-[0_0_30px_rgba(20,184,166,0.3)] active:scale-95">
+                    Start 3-Month Free Trial
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <footer className="bg-slate-950 py-12 border-t border-white/5">
+              <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+                <div className="flex items-center gap-3">
+                  <div className="bg-brand-600 p-2 rounded-xl">
+                      <Car className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="font-bold text-white tracking-tight uppercase">MyPrivateRide</span>
+                </div>
+                <p className="text-slate-500 text-xs font-medium uppercase tracking-widest">
+                  &copy; {new Date().getFullYear()} MyPrivateRide Australia AU. All rights reserved.
+                </p>
+                <div className="flex gap-6">
+                  <button onClick={() => setIsPricingOpen(true)} className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Pricing</button>
+                  <a href="mailto:s.manny1440@gmail.com" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Support</a>
+                </div>
               </div>
             </footer>
         </div>
