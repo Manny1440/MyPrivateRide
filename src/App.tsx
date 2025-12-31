@@ -56,7 +56,7 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
           <div className="px-6 py-8 sm:p-10">
             <div className="flex justify-between items-start mb-10">
               <div>
-                <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter italic">Scale Your Business</h3>
+                <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter italic text-brand-600">Scale Your Business</h3>
                 <p className="text-slate-500 max-w-md">The professional standard for independent drivers who want to own their client list.</p>
                 <div className="mt-4 inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[10px] font-black tracking-widest border border-emerald-100 uppercase">
                   <Zap className="w-3 h-3 fill-emerald-700" /> PROMO: 3 MONTHS FREE TRIAL
@@ -70,7 +70,7 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { name: 'Starter', price: '$29', features: ['Custom Booking Link', 'Email Notifications', 'Basic Analytics'], color: 'slate' },
-                { name: 'Professional', price: '$39', features: ['AI Smart Replies', 'WhatsApp Generator', 'SMS Reminders', 'Priority Support'], color: 'brand', popular: true },
+                { name: 'Professional', price: '$39', features: ['AI Smart Drafts', 'WhatsApp Generator', 'SMS Reminders', 'Priority Support'], color: 'brand', popular: true },
                 { name: 'Elite', price: '$99', features: ['Multi-Driver Fleet', 'Dispatch Panel', 'Custom Domain', 'White Label App'], color: 'slate' }
               ].map((plan) => (
                 <div key={plan.name} className={`relative p-8 rounded-2xl border transition-all hover:shadow-xl ${plan.popular ? 'border-brand-500 border-2 bg-brand-50/10' : 'border-slate-100 bg-white'}`}>
@@ -170,10 +170,10 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <div className="bg-brand-500 p-2 rounded-xl shadow-lg shadow-brand-500/20">
-                <Car className="w-6 h-6 text-brand-950" />
+              <div className="bg-brand-600 p-2 rounded-xl">
+                <Car className="w-5 h-5 text-white" />
               </div>
-              <span className="font-black text-xl tracking-tight uppercase italic">{driver.businessName}</span>
+              <span className="font-bold text-lg md:text-xl tracking-tight">MyPrivateRide</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-10">
@@ -198,7 +198,7 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-brand-500/10 backdrop-blur-md px-4 py-2 rounded-full text-brand-400 text-[10px] font-black tracking-widest uppercase mb-8 border border-brand-500/20">
+            <div className="inline-flex items-center gap-2 bg-brand-500/10 backdrop-blur-md px-4 py-1.5 rounded-full text-brand-400 text-[10px] font-black tracking-widest uppercase mb-8 border border-brand-500/20">
                 <Star className="w-4 h-4 fill-brand-400" /> Rated #1 in {driver.location}
             </div>
             <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.9] mb-8 uppercase tracking-tighter italic">
@@ -320,26 +320,26 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
             
             <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-brand-600 p-2.5 rounded-2xl shadow-lg shadow-brand-200">
-                            <Car className="w-6 h-6 text-white" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-2 md:gap-3 shrink-0">
+                        <div className="bg-brand-600 p-2 rounded-xl">
+                            <Car className="w-5 h-5 text-white" />
                         </div>
-                        <span className="font-black text-2xl tracking-tighter uppercase italic">MyPrivateRide</span>
+                        <span className="font-bold text-lg md:text-2xl tracking-tight">MyPrivateRide</span>
                     </div>
-                    <button onClick={() => setIsPricingOpen(true)} className="bg-slate-950 text-white px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
-                      Driver Signup
+                    <button onClick={() => setIsPricingOpen(true)} className="bg-slate-950 text-white px-4 md:px-8 py-2 md:py-3 rounded-2xl font-black text-[10px] md:text-xs uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 whitespace-nowrap">
+                      Start Free Trial
                     </button>
                 </div>
             </nav>
 
-            {/* --- HERO SECTION (RESTORED FROM SCREENSHOT) --- */}
+            {/* --- HERO SECTION --- */}
             <header className="relative pt-24 pb-20 px-4 text-center">
                 <div className="max-w-4xl mx-auto">
                     <div className="inline-block bg-brand-50 text-brand-700 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-10 border border-brand-100">
                       For Professional Drivers in Australia AU
                     </div>
-                    <h1 className="text-6xl md:text-[5.5rem] font-black text-slate-900 leading-[0.9] tracking-tighter uppercase mb-10">
+                    <h1 className="text-5xl md:text-[5.5rem] font-black text-slate-900 leading-[0.9] tracking-tighter uppercase mb-10">
                       Your Own <span className="text-brand-500">Private Booking App</span><br />
                       in 60 Seconds.
                     </h1>
@@ -354,84 +354,94 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
 
                     <div className="mt-8">
                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">SEE LIVE DEMOS</p>
-                        <div className="flex justify-center gap-4 flex-wrap">
-                            {['harry', 'gary', 'tom'].map(id => (
-                              <button 
-                                key={id}
-                                onClick={() => onDriverSelect(id)} 
-                                className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-6 py-3 rounded-full hover:bg-white hover:border-brand-500 transition-all cursor-pointer group shadow-sm"
-                              >
-                                <span className="w-2 h-2 rounded-full bg-brand-500 group-hover:scale-150 transition-transform shadow-[0_0_8px_rgba(20,184,166,0.5)]"></span> 
-                                <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">{drivers.find(d => d.id === id)?.businessName}</span>
-                              </button>
-                            ))}
+                        <div className="flex justify-center gap-3 md:gap-4 flex-wrap max-w-3xl mx-auto">
+                            {['harry', 'gary', 'avtar', 'inder', 'tom'].map(id => {
+                              const d = drivers.find(drv => drv.id === id);
+                              if (!d) return null;
+                              return (
+                                <button 
+                                  key={id}
+                                  onClick={() => onDriverSelect(id)} 
+                                  className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-5 py-3 rounded-full hover:bg-white hover:border-brand-500 transition-all cursor-pointer group shadow-sm"
+                                >
+                                  <span className="w-2 h-2 rounded-full bg-brand-500 group-hover:scale-150 transition-transform shadow-[0_0_8px_rgba(20,184,166,0.5)]"></span> 
+                                  <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{d.businessName}</span>
+                                </button>
+                              );
+                            })}
                         </div>
                     </div>
                 </div>
             </header>
 
-            {/* --- AI SHOWCASE SECTION (NEW) --- */}
+            {/* --- AI SHOWCASE SECTION (REFINED TO MATCH SCREENSHOT) --- */}
             <section className="bg-slate-50 py-32 border-y border-slate-100">
               <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-20">
-                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic mb-6">AI confirmations that build trust.</h2>
-                  <p className="text-slate-500 font-medium max-w-xl mx-auto">Impress your clients with instant, professional responses generated specifically for your business.</p>
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic mb-6">AI Drafts That Build Trust.</h2>
+                  <p className="text-slate-500 font-medium max-w-xl mx-auto">When a booking arrives, our AI instantly prepares a professional draft for you. Just tap 'Send' to confirm via WhatsApp or Email.</p>
                 </div>
 
                 <div className="grid md:grid-cols-12 gap-12 items-center">
-                  <div className="md:col-span-5 space-y-6">
-                    <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 relative overflow-hidden group">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 -mr-16 -mt-16 rounded-full group-hover:scale-110 transition-transform"></div>
-                      <div className="flex items-center gap-4 mb-6 relative">
-                        <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center"><UserCircle className="text-slate-400" /></div>
+                  <div className="md:col-span-6 flex flex-col items-center">
+                    
+                    {/* CLIENT REQUEST CARD */}
+                    <div className="bg-white p-8 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md relative overflow-hidden mb-10">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 -mr-16 -mt-16 rounded-full opacity-50"></div>
+                      <div className="flex items-center gap-4 mb-8">
+                        <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 border border-slate-200"><UserCircle /></div>
                         <div>
-                          <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Client Request</p>
-                          <p className="font-bold text-slate-900">John Smith</p>
+                          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">CLIENT REQUEST</p>
+                          <p className="font-bold text-slate-900 text-lg">John Smith</p>
                         </div>
                       </div>
-                      <p className="text-slate-600 font-medium leading-relaxed italic border-l-4 border-slate-200 pl-4 py-2 bg-slate-50/50 rounded-r-xl">
-                        "Hi Harry, can you pick me up from Melb Airport tomorrow around 5:30am? Just me, flying to Sydney."
-                      </p>
-                    </div>
-
-                    <div className="flex justify-center">
-                      <div className="bg-brand-500 p-4 rounded-full text-white animate-bounce shadow-xl shadow-brand-500/30">
-                        <ArrowRight className="w-6 h-6 rotate-90 md:rotate-0" />
+                      <div className="border-l-4 border-slate-100 pl-6 py-2">
+                        <p className="text-slate-600 font-medium leading-relaxed italic text-lg">
+                          "Hi Harry, can you pick me up from Melb Airport tomorrow around 5:30am? Just me, flying to Sydney."
+                        </p>
                       </div>
                     </div>
 
-                    <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden border border-white/5">
-                      <div className="absolute top-4 right-8 bg-brand-500 text-brand-950 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                        <Zap className="w-3 h-3 fill-brand-950" /> MyPrivateRide AI
+                    {/* ANIMATED ARROW */}
+                    <div className="mb-10">
+                      <div className="bg-brand-500 p-4 rounded-full text-white shadow-xl shadow-brand-500/30 animate-pulse">
+                        <ArrowRight className="w-6 h-6 rotate-90 md:rotate-90" />
                       </div>
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center"><Smartphone className="text-brand-950" /></div>
+                    </div>
+
+                    {/* SMART REPLY CARD */}
+                    <div className="bg-[#0f172a] p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md relative border border-white/5">
+                      <div className="absolute top-6 right-8 bg-brand-500 text-[#042f2e] px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-lg shadow-brand-500/20">
+                        <Zap className="w-3 h-3 fill-brand-950" /> MYPRIVATERIDE AI
+                      </div>
+                      <div className="flex items-center gap-4 mb-8">
+                        <div className="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center text-[#042f2e] shadow-lg shadow-brand-500/20"><Smartphone /></div>
                         <div>
-                          <p className="text-xs font-black uppercase text-brand-400 tracking-widest">WhatsApp Auto-Reply</p>
-                          <p className="font-bold text-white italic">Harry Singh</p>
+                          <p className="text-white font-bold italic text-lg tracking-tight">Harry Singh</p>
                         </div>
                       </div>
-                      <div className="space-y-3">
-                        <div className="bg-white/10 p-4 rounded-2xl rounded-bl-none text-white text-sm font-medium leading-relaxed border border-white/5">
+                      <div className="space-y-4">
+                        <div className="bg-slate-800/60 p-5 rounded-2xl rounded-bl-none text-white text-sm font-medium leading-relaxed border border-white/5">
                           "Hi John, I've received your request for 5:30 AM tomorrow at Melbourne Airport. I'll be there in the Audi A8. Looking forward to driving you again!"
                         </div>
-                        <div className="bg-white/10 p-3 rounded-2xl rounded-bl-none text-brand-400 text-xs font-bold border border-white/5 inline-block">
-                          ✅ Travel Tip: 5:30am can be chilly, I'll have the seat heaters ready!
+                        <div className="bg-slate-800/40 p-4 rounded-xl text-slate-400 text-xs font-bold border border-white/5 flex items-center gap-2">
+                          <Check className="w-4 h-4 text-brand-500" />
+                          <span>Travel Tip: 5:30am can be chilly, I'll have the seat heaters ready!</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="md:col-span-7 md:pl-16">
-                    <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tighter italic mb-8">Professionalism on Autopilot.</h3>
-                    <ul className="space-y-8">
+                  <div className="md:col-span-6 md:pl-16">
+                    <h3 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic mb-10 leading-tight">Professionalism<br/>On Autopilot.</h3>
+                    <ul className="space-y-10">
                       {[
-                        { title: 'Zero Manual Work', desc: 'The AI understands dates, times, and flight details instantly.', icon: Clock },
-                        { title: 'Fleet-Grade Branding', desc: 'Impress your corporate clients with 5-star digital communication.', icon: Shield },
-                        { title: 'Instant Confirmation', desc: 'Never lose a lead to another driver while you are behind the wheel.', icon: Zap }
+                        { title: 'Zero Manual Writing', desc: 'The AI draft is ready before you even open your phone. Save hours of typing every week.', icon: Clock },
+                        { title: 'Fleet-Grade Reliability', desc: 'Every client gets a polite, structured response that makes you look like a top-tier operator.', icon: Shield },
+                        { title: 'Instant Confirmation', desc: 'One tap opens WhatsApp with the message already typed. You just hit send.', icon: Zap }
                       ].map((item, idx) => (
-                        <li key={idx} className="flex gap-6">
-                          <div className="shrink-0 w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center border border-slate-100"><item.icon className="text-brand-600 w-7 h-7" /></div>
+                        <li key={idx} className="flex gap-6 group">
+                          <div className="shrink-0 w-16 h-16 bg-white rounded-3xl shadow-sm flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white transition-all"><item.icon className="w-7 h-7" /></div>
                           <div>
                             <p className="text-xl font-black text-slate-900 uppercase italic tracking-tighter mb-2">{item.title}</p>
                             <p className="text-slate-500 font-medium leading-relaxed">{item.desc}</p>
@@ -439,6 +449,11 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                         </li>
                       ))}
                     </ul>
+                    <div className="mt-16">
+                      <button onClick={() => setIsPricingOpen(true)} className="flex items-center gap-3 bg-slate-950 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
+                        Try It For Free <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -506,13 +521,13 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                 </div>
             </section>
 
-            <section className="bg-slate-950 py-40">
+            <footer className="bg-slate-950 py-20">
               <div className="max-w-7xl mx-auto px-4 text-center">
                 <h2 className="text-5xl md:text-8xl font-black text-white italic tracking-tighter uppercase mb-24 leading-[0.8]">Build a brand,<br/>not just a shift.</h2>
                 <div className="grid md:grid-cols-3 gap-12">
                     {[
                       { icon: Smartphone, title: 'Direct WhatsApp', desc: 'Bookings land in your personal WhatsApp. No dashboards, just direct conversation.' },
-                      { icon: Zap, title: 'AI Assistant', desc: 'Our AI drafts professional email confirmations for you instantly. Look like a 5-star fleet.' },
+                      { icon: Zap, title: 'AI Smart Drafts', desc: 'Our AI drafts professional email confirmations for you instantly. Look like a 5-star fleet.' },
                       { icon: Globe, title: 'Client Loyalty', desc: 'Owning the relationship means customers call you first, not an app. Build a secure future.' }
                     ].map((benefit, idx) => (
                       <div key={idx} className="bg-white/5 backdrop-blur-md p-14 rounded-[3.5rem] border border-white/5 hover:bg-white/[0.07] transition-all">
@@ -524,7 +539,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                 </div>
                 <button onClick={() => setIsPricingOpen(true)} className="mt-24 px-16 py-8 bg-brand-500 text-brand-950 text-2xl font-black rounded-[2.5rem] hover:bg-brand-400 transition-all uppercase tracking-[0.2em] shadow-2xl shadow-brand-500/30 active:scale-95">Start 3-Month Free Trial</button>
               </div>
-            </section>
+            </footer>
         </div>
     );
 }
