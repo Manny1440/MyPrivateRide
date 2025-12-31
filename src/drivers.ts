@@ -1,73 +1,92 @@
+
 import { DriverProfile } from "./types";
 
 export const drivers: DriverProfile[] = [
   {
-    id: "harry",
-    // Trial Start: 2024-05-01
-    businessName: "Harry's PrivateRide",
+    id: "harry", // Legacy URL: ?driver=harry
+    businessName: "Harry's Airport Express",
     driverName: "Harry",
     phone: "+61413948080",
     email: "harchand2000@yahoo.com",
-    location: "Melbourne Metro, Melbourne South-East & Airport",
+    location: "Melbourne Airport & North",
     themeColor: "teal",
-    tagline: "Professional. Punctual. Private.",
+    tagline: "Your reliable link to Tullamarine.",
     heroImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Luxury Sedan"
+    vehicleType: "Premium Sedan",
+    experienceYears: 12,
+    specialties: ["Airport Transfers", "Fixed Rates"]
   },
   {
-    id: "gary",
-    // Trial Start: 2024-05-10
-    businessName: "Gary's PrivateRide",
-    driverName: "Gary",
-    phone: "+61400000002",
-    email: "gary@privateride.com.au",
-    location: "Melbourne CBD, Melbourne North, Melbourne West & Melbourne South-East",
+    id: "harry-s", // Initial URL: ?driver=harry-s
+    businessName: "Harry S. Prestige Hire",
+    driverName: "Harry",
+    surnameInitial: "S",
+    phone: "+61400000004",
+    email: "harry.s@privateride.com.au",
+    location: "Melbourne Eastern Suburbs",
     themeColor: "teal",
-    tagline: "Your reliable local driver.",
-    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Maxi Taxi"
+    tagline: "Luxury travel for the East.",
+    heroImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Audi A8",
+    experienceYears: 6,
+    specialties: ["Wedding Hire", "Winery Tours"]
   },
   {
-    id: "tom",
-    // Trial Start: 2024-05-12
-    businessName: "Tom's PrivateRide",
-    driverName: "Tom",
-    phone: "+61400000003",
-    email: "tom@privateride.com.au",
-    location: "Brisbane & Gold Coast",
+    id: "harry-singh", // Full Surname URL: ?driver=harry-singh
+    businessName: "Harry Singh's Luxury Travels",
+    driverName: "Harry",
+    surname: "Singh",
+    phone: "+61400000005",
+    email: "h.singh@privateride.com.au",
+    location: "Melbourne Metro All-Areas",
     themeColor: "teal",
-    tagline: "Airport transfers made easy.",
-    heroImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Tesla Model Y"
+    tagline: "Elite chauffeur service.",
+    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Mercedes-Benz V-Class",
+    experienceYears: 9,
+    specialties: ["Corporate Travel", "V-Class 7 Seater"]
+  },
+  {
+    id: "harry-singh-west", // Extended Slug URL: ?driver=harry-singh-west
+    businessName: "Singh's West Melbourne Chauffeurs",
+    driverName: "Harry",
+    surname: "Singh",
+    phone: "+61400000006",
+    email: "west.singh@privateride.com.au",
+    location: "Melbourne Western Suburbs",
+    themeColor: "teal",
+    tagline: "Your local Western specialist.",
+    heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Tesla Model X",
+    experienceYears: 4,
+    specialties: ["Eco-Luxury", "Tarneit/Truganina Specials"]
   },
   {
     id: "avtar",
-    // Trial Start: 2024-05-20
-    businessName: "Avtar's PrivateRide",
+    businessName: "Avtar's Executive Travel",
     driverName: "Avtar",
     phone: "+61402496021",
     email: "avtar@gmail.com",
-    location: "Melbourne West, Melbourne North, Melbourne South East and Melbourne Airport",
+    location: "Melbourne SE Suburbs",
     themeColor: "teal",
-    tagline: "Executive travel for business professionals.",
-    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Toyota Kluger"
+    tagline: "First-class service for every passenger.",
+    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Toyota Kluger",
+    experienceYears: 15,
+    specialties: ["Large Groups", "Child Seats"]
   },
   {
     id: "inder",
-    // Trial Start: 2025-12-23
-    businessName: "Inder's PrivateRide",
+    businessName: "Inder's Premium Hire",
     driverName: "Inder",
     phone: "+61421914654",
     email: "ipsk2005@yahoo.com",
-    location: "Melbourne Metro, Airport, Melbourne South East",
+    location: "Melbourne Metro All-Areas",
     themeColor: "teal",
-    tagline: "Executive travel for business professionals.",
-    heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Toyota Camry"
+    tagline: "Always ready, always on time.",
+    heroImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Toyota Camry Hybrid",
+    experienceYears: 10,
+    specialties: ["City Tours", "Daily Hire"]
   }
 ];
-
-
-
-
