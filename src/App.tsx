@@ -374,7 +374,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                 </div>
             </header>
 
-            {/* --- AI SHOWCASE SECTION (REFINED TO MATCH SCREENSHOT) --- */}
+            {/* --- AI SHOWCASE SECTION --- */}
             <section className="bg-slate-50 py-32 border-y border-slate-100">
               <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-20">
