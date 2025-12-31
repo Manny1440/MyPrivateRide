@@ -1,3 +1,4 @@
+
 export interface BookingRequest {
   fullName: string;
   email: string;
@@ -20,9 +21,11 @@ export interface BookingResponse {
 }
 
 export interface DriverProfile {
-  id: string;
+  id: string; // The unique slug used in URLs (e.g., 'harry', 'harry-s', 'harry-singh')
   businessName: string;
   driverName: string;
+  surnameInitial?: string; // e.g., 'S'
+  surname?: string; // e.g., 'Singh' - Full surname for display
   phone: string;
   email: string;
   location: string;
@@ -30,4 +33,6 @@ export interface DriverProfile {
   tagline: string;
   heroImage: string;
   vehicleType: string;
+  experienceYears?: number;
+  specialties?: string[];
 }
