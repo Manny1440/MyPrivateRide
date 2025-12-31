@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { BookingRequest, DriverProfile } from '../types';
-import { generateBookingConfirmation, EnhancedBookingResponse } from '../services/geminiService';
-import { Loader2, CheckCircle, Car, Calendar, MapPin, Users, Mail, Phone, User, Clock, MessageCircle, Zap, ExternalLink } from 'lucide-react';
+import { BookingRequest, BookingResponse, DriverProfile } from '../types';
+import { generateBookingConfirmation } from '../services/geminiService';
+import { Loader2, CheckCircle, Car, Calendar, MapPin, Users, Mail, Phone, User, Clock, MessageCircle } from 'lucide-react';
 
 interface Props {
     driver: DriverProfile;
@@ -22,7 +22,7 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<EnhancedBookingResponse | null>(null);
+  const [result, setResult] = useState<BookingResponse | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,25 +51,12 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
   };
 
   if (result) {
-    // 1. CREATE THE DRIVER-ONLY LINK
-    // We encode the AI results and form data into a link Manny can click
-    const driverActionData = btoa(JSON.stringify({
-        ref: result.bookingRef,
-        client: formData.fullName,
-        clientPhone: formData.phone,
-        draft: result.driverReplyDraft,
-        pickup: formData.pickupLocation,
-        dropoff: formData.dropoffLocation,
-        time: `${formData.date} @ ${formData.time}`
-    }));
-    const driverDashboardUrl = `${window.location.origin}${window.location.pathname}?driver=${driver.id}&action=manage&data=${driverActionData}`;
-
-    // 2. CLEAN CUSTOMER MESSAGE (No AI draft here)
-    const customerToDriverMsg = `🚀 NEW PRIVATE BOOKING ${result.bookingRef}\n\n👤 Client: ${formData.fullName}\n📞 Phone: ${formData.phone}\n📍 From: ${formData.pickupLocation}\n🏁 To: ${formData.dropoffLocation}\n📅 When: ${formData.date} @ ${formData.time}\n👥 Pax: ${formData.passengers}\n📝 Notes: ${formData.notes || 'N/A'}\n\n--- DRIVER DASHBOARD ---\n(Manny, click to view AI Smart Reply):\n${driverDashboardUrl}`;
+    // Simple, professional message for the driver
+    const messageToDriver = `🚀 NEW PRIVATE BOOKING ${result.bookingRef}\n\n👤 Client: ${formData.fullName}\n📞 Phone: ${formData.phone}\n📍 From: ${formData.pickupLocation}\n🏁 To: ${formData.dropoffLocation}\n📅 When: ${formData.date} @ ${formData.time}\n👥 Pax: ${formData.passengers}\n📝 Notes: ${formData.notes || 'None'}`;
     
     const rawPhone = driver.phone.replace(/[^0-9]/g, '');
-    const whatsappLink = `https://wa.me/${rawPhone}?text=${encodeURIComponent(customerToDriverMsg)}`;
-    const smsLink = `sms:${driver.phone}?body=${encodeURIComponent(customerToDriverMsg)}`;
+    const whatsappLink = `https://wa.me/${rawPhone}?text=${encodeURIComponent(messageToDriver)}`;
+    const smsLink = `sms:${driver.phone}?body=${encodeURIComponent(messageToDriver)}`;
 
     return (
       <div className="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl max-w-2xl mx-auto border border-teal-100 animate-fade-in-up">
@@ -86,29 +73,32 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
 
         <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 mb-8">
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <Car className="w-3 h-3" /> Trip Details
+                <Car className="w-3 h-3" /> Trip Summary
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-teal-500" />
+                    <MapPin className="w-4 h-4 text-teal-500" />
                     <div>
                         <p className="text-[10px] text-slate-400 font-bold uppercase">Pickup</p>
                         <p className="font-bold text-slate-900 leading-tight">{formData.pickupLocation}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-slate-400" />
+                    <Calendar className="w-4 h-4 text-slate-400" />
                     <div>
                         <p className="text-[10px] text-slate-400 font-bold uppercase">Schedule</p>
                         <p className="font-bold text-slate-900 leading-tight">{formData.date} at {formData.time}</p>
                     </div>
                 </div>
             </div>
+            <div className="mt-4 pt-4 border-t border-slate-200">
+                <p className="text-xs text-slate-500 italic">"{result.travelTips}"</p>
+            </div>
         </div>
 
         <div className="space-y-4">
             <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] mb-4">
-                Notify {driver.driverName} to secure your ride
+                Send details to {driver.driverName} to confirm
             </p>
             
             <div className="flex flex-col gap-3">
@@ -128,9 +118,16 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
                     <Phone className="w-4 h-4" />
                     Send via SMS
                 </a>
+                <a 
+                    href={`mailto:${driver.email}?subject=${encodeURIComponent(result.emailSubject)}&body=${encodeURIComponent(result.emailBody)}`}
+                    className="flex items-center justify-center gap-2 text-slate-400 hover:text-slate-600 py-2 text-[10px] font-bold uppercase tracking-widest"
+                >
+                    <Mail className="w-3 h-3" />
+                    Confirm via Email
+                </a>
             </div>
              <button onClick={handleReset} className="w-full text-slate-400 font-black uppercase tracking-widest text-[10px] hover:text-teal-600 mt-6 transition-colors">
-                Edit Trip Details
+                Back to Form
             </button>
         </div>
       </div>
@@ -206,7 +203,7 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
 
         <button type="submit" disabled={loading}
             className="w-full bg-slate-950 hover:bg-slate-800 text-white font-black py-6 px-6 rounded-2xl transition-all shadow-2xl shadow-slate-200 flex items-center justify-center gap-3 disabled:opacity-70 uppercase tracking-widest">
-            {loading ? <><Loader2 className="animate-spin w-6 h-6 text-teal-500" /> Calculating...</> : <>Secure Booking Request</>}
+            {loading ? <><Loader2 className="animate-spin w-6 h-6 text-teal-500" /> Preparing...</> : <>Request Your Ride</>}
         </button>
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-center text-slate-400">
             Professional Direct Driver Link
