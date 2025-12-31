@@ -1,9 +1,9 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import BookingForm from './components/BookingForm';
 import { drivers } from './drivers';
 import { DriverProfile } from './types';
-import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, QrCode, Download, Search, MapPin, Briefcase, UserCircle, BadgeCheck, Send, MessageSquare, ArrowRight } from 'lucide-react';
+import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, UserCircle, ArrowRight } from 'lucide-react';
 
 /* --- UTILS --- */
 const getDisplayName = (driver: DriverProfile) => {
@@ -56,7 +56,7 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
           <div className="px-6 py-8 sm:p-10">
             <div className="flex justify-between items-start mb-10">
               <div>
-                <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter italic text-brand-600">Scale Your Business</h3>
+                <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter italic text-teal-600">Scale Your Business</h3>
                 <p className="text-slate-500 max-w-md">The professional standard for independent drivers who want to own their client list.</p>
                 <div className="mt-4 inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[10px] font-black tracking-widest border border-emerald-100 uppercase">
                   <Zap className="w-3 h-3 fill-emerald-700" /> PROMO: 3 MONTHS FREE TRIAL
@@ -87,53 +87,11 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
                       </li>
                     ))}
                   </ul>
-                  <button onClick={() => handleSignup(plan.name)} className={`w-full mt-10 py-3 rounded-xl font-bold transition-all shadow-md uppercase tracking-widest text-xs ${plan.popular ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-slate-900 text-white hover:bg-slate-800'}`}>
+                  <button onClick={() => handleSignup(plan.name)} className={`w-full mt-10 py-3 rounded-xl font-bold transition-all shadow-md uppercase tracking-widest text-xs ${plan.popular ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-slate-900 text-white hover:bg-slate-800'}`}>
                     Select {plan.name}
                   </button>
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const DriverToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; driver: DriverProfile }> = ({ isOpen, onClose, driver }) => {
-  if (!isOpen) return null;
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=${encodeURIComponent(window.location.origin + '?driver=' + driver.id)}`;
-
-  return (
-    <div className="fixed inset-0 z-[70] overflow-y-auto" role="dialog" aria-modal="true">
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <div className="fixed inset-0 bg-slate-900/90 backdrop-blur-md" onClick={onClose}></div>
-        <div className="relative bg-white rounded-3xl overflow-hidden shadow-2xl max-w-md w-full border border-slate-200">
-          <div className="p-8">
-            <div className="flex justify-between items-start mb-6">
-               <h3 className="text-2xl font-black text-slate-900 flex items-center gap-3 uppercase tracking-tighter">
-                 <QrCode className="w-6 h-6 text-brand-600" />
-                 Marketing Kit
-               </h3>
-               <button onClick={onClose} className="bg-slate-100 rounded-full p-1.5 hover:bg-slate-200">
-                 <X className="w-5 h-5 text-slate-500" />
-               </button>
-            </div>
-            
-            <div className="flex flex-col items-center">
-              <div className="bg-white p-6 shadow-sm border border-slate-100 rounded-2xl mb-6">
-                <img src={qrUrl} alt="Driver QR Code" className="w-56 h-56" />
-              </div>
-              <p className="text-sm text-center text-slate-500 mb-8 leading-relaxed">
-                Customers scan this to reach <strong>{driver.businessName}</strong>. 
-                Your permanent direct link: <span className="text-brand-600 font-bold block mt-1">?driver={driver.id}</span>
-              </p>
-
-              <div className="grid grid-cols-1 gap-3 w-full">
-                <a href={qrUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-brand-600 text-white py-4 rounded-xl font-bold hover:bg-brand-700 transition-all shadow-lg shadow-brand-200 uppercase tracking-widest text-xs">
-                  <Download className="w-5 h-5" /> Download QR Code
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -147,7 +105,6 @@ const DriverToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; driver:
 const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ driver, onBack }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPricingOpen, setIsPricingOpen] = useState(false);
-  const [isToolsOpen, setIsToolsOpen] = useState(false);
 
   const displayName = getDisplayName(driver);
 
@@ -161,24 +118,23 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-teal-100">
       <OfflineBanner />
       <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
-      <DriverToolsModal isOpen={isToolsOpen} onClose={() => setIsToolsOpen(false)} driver={driver} />
       
       <nav className="bg-slate-950 text-white sticky top-0 z-50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <div className="bg-brand-600 p-2 rounded-xl">
+              <div className="bg-teal-600 p-2 rounded-xl">
                 <Car className="w-5 h-5 text-white" />
               </div>
               <span className="font-bold text-lg md:text-xl tracking-tight">MyPrivateRide</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-10">
-              <a href="#about" className="text-sm font-semibold hover:text-brand-400 transition-colors uppercase tracking-wider">The Difference</a>
-              <a href="#book-now" onClick={scrollToBooking} className="bg-brand-500 text-brand-950 px-6 py-2.5 rounded-full text-sm font-black hover:bg-brand-400 transition-all uppercase tracking-widest shadow-lg shadow-brand-500/20">Book Now</a>
+              <a href="#about" className="text-sm font-semibold hover:text-teal-400 transition-colors uppercase tracking-wider">The Difference</a>
+              <a href="#book-now" onClick={scrollToBooking} className="bg-teal-500 text-teal-950 px-6 py-2.5 rounded-full text-sm font-black hover:bg-teal-400 transition-all uppercase tracking-widest shadow-lg shadow-teal-500/20">Book Now</a>
             </div>
 
             <div className="-mr-2 flex md:hidden">
@@ -198,8 +154,8 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-brand-500/10 backdrop-blur-md px-4 py-1.5 rounded-full text-brand-400 text-[10px] font-black tracking-widest uppercase mb-8 border border-brand-500/20">
-                <Star className="w-4 h-4 fill-brand-400" /> Rated #1 in {driver.location}
+            <div className="inline-flex items-center gap-2 bg-teal-500/10 backdrop-blur-md px-4 py-1.5 rounded-full text-teal-400 text-[10px] font-black tracking-widest uppercase mb-8 border border-teal-500/20">
+                <Star className="w-4 h-4 fill-teal-400" /> Rated #1 in {driver.location}
             </div>
             <h1 className="text-5xl md:text-8xl font-black text-white leading-[0.9] mb-8 uppercase tracking-tighter italic">
               {driver.tagline}
@@ -208,7 +164,7 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
               Experience a {driver.experienceYears}+ year professional service. Skip the surge and book {displayName} directly for premium {driver.vehicleType} transfers.
             </p>
             <div className="flex flex-col sm:flex-row gap-5">
-                <a href="#book-now" onClick={scrollToBooking} className="inline-flex items-center justify-center px-10 py-5 bg-brand-500 text-brand-950 text-lg font-black rounded-2xl hover:bg-brand-400 transition-all shadow-xl shadow-brand-500/20 uppercase tracking-widest">
+                <a href="#book-now" onClick={scrollToBooking} className="inline-flex items-center justify-center px-10 py-5 bg-teal-500 text-teal-950 text-lg font-black rounded-2xl hover:bg-teal-400 transition-all shadow-xl shadow-teal-500/20 uppercase tracking-widest">
                   Confirm Booking
                 </a>
             </div>
@@ -220,7 +176,7 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
             <div className="max-w-xl">
-              <h2 className="text-brand-600 font-black uppercase tracking-[0.2em] mb-4 text-xs">The Premium Difference</h2>
+              <h2 className="text-teal-600 font-black uppercase tracking-[0.2em] mb-4 text-xs">The Premium Difference</h2>
               <p className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-none uppercase">Why clients choose {driver.driverName}</p>
             </div>
             <p className="text-slate-500 max-w-xs font-medium">Professionalism isn't just a promise, it's my standard for every mile driven.</p>
@@ -261,18 +217,18 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
               <div>
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-500 mb-6">Connect</h4>
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-teal-500 mb-6">Connect</h4>
                 <ul className="space-y-4">
                   <li className="flex items-center text-slate-400 group cursor-pointer hover:text-white transition-colors">
-                    <Phone className="h-5 w-5 mr-3 text-brand-500" /><span>{driver.phone}</span>
+                    <Phone className="h-5 w-5 mr-3 text-teal-500" /><span>{driver.phone}</span>
                   </li>
                   <li className="flex items-center text-slate-400 group cursor-pointer hover:text-white transition-colors">
-                    <Mail className="h-5 w-5 mr-3 text-brand-500" /><span>{driver.email}</span>
+                    <Mail className="h-5 w-5 mr-3 text-teal-500" /><span>{driver.email}</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-500 mb-6">Service Area</h4>
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-teal-500 mb-6">Service Area</h4>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-[10px] font-black uppercase tracking-wider">{driver.location}</span>
                 </div>
@@ -283,9 +239,6 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
           <div className="border-t border-white/5 pt-12 flex flex-col sm:flex-row justify-between items-center gap-8">
             <p className="text-slate-600 text-xs font-medium">&copy; {new Date().getFullYear()} {driver.businessName}. Built on MyPrivateRide.</p>
             <div className="flex gap-4">
-                <button onClick={() => setIsToolsOpen(true)} className="text-[10px] font-black uppercase tracking-widest text-brand-500 bg-brand-500/5 border border-brand-500/20 px-4 py-2 rounded-full hover:bg-brand-500 hover:text-brand-950 transition-all">
-                  Marketing Kit
-                </button>
                 <button onClick={() => setIsPricingOpen(true)} className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-colors">Start Your App</button>
                 <button onClick={onBack} className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1 hover:text-white">
                   <ArrowLeft className="w-3 h-3" /> All Drivers
@@ -309,7 +262,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2 md:gap-3 shrink-0">
-                        <div className="bg-brand-600 p-2 rounded-xl">
+                        <div className="bg-teal-600 p-2 rounded-xl">
                             <Car className="w-5 h-5 text-white" />
                         </div>
                         <span className="font-bold text-lg md:text-2xl tracking-tight">MyPrivateRide</span>
@@ -323,18 +276,18 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             {/* --- HERO SECTION --- */}
             <header className="relative pt-24 pb-20 px-4 text-center">
                 <div className="max-w-4xl mx-auto">
-                    <div className="inline-block bg-brand-50 text-brand-700 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-10 border border-brand-100">
+                    <div className="inline-block bg-teal-50 text-teal-700 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-10 border border-teal-100">
                       For Professional Drivers in Australia AU
                     </div>
                     <h1 className="text-5xl md:text-[5.5rem] font-black text-slate-900 leading-[0.9] tracking-tighter uppercase mb-10">
-                      Your Own <span className="text-brand-500">Private Booking App</span><br />
+                      Your Own <span className="text-teal-500">Private Booking App</span><br />
                       in 60 Seconds.
                     </h1>
                     <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
                       Stop losing 30% to Uber. Give your private clients a professional way to book you directly. Includes AI confirmations and WhatsApp integration.
                     </p>
                     <div className="flex justify-center mb-20">
-                      <button onClick={() => setIsPricingOpen(true)} className="bg-brand-600 text-white px-12 py-6 rounded-2xl font-black text-lg uppercase tracking-widest hover:bg-brand-700 transition-all shadow-2xl shadow-brand-500/20 active:scale-95">
+                      <button onClick={() => setIsPricingOpen(true)} className="bg-teal-600 text-white px-12 py-6 rounded-2xl font-black text-lg uppercase tracking-widest hover:bg-teal-700 transition-all shadow-2xl shadow-teal-500/20 active:scale-95">
                         Create My App Now
                       </button>
                     </div>
@@ -342,16 +295,16 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                     <div className="mt-8">
                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">SEE LIVE DEMOS</p>
                         <div className="flex justify-center gap-3 md:gap-4 flex-wrap max-w-3xl mx-auto">
-                            {['harry', 'gary', 'avtar', 'inder', 'tom'].map(id => {
+                            {['manny', 'harry', 'gary', 'avtar', 'inder', 'tom'].map(id => {
                               const d = drivers.find(drv => drv.id === id);
                               if (!d) return null;
                               return (
                                 <button 
                                   key={id}
                                   onClick={() => onDriverSelect(id)} 
-                                  className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-5 py-3 rounded-full hover:bg-white hover:border-brand-500 transition-all cursor-pointer group shadow-sm"
+                                  className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-5 py-3 rounded-full hover:bg-white hover:border-teal-500 transition-all cursor-pointer group shadow-sm"
                                 >
-                                  <span className="w-2 h-2 rounded-full bg-brand-500 group-hover:scale-150 transition-transform shadow-[0_0_8px_rgba(20,184,166,0.5)]"></span> 
+                                  <span className="w-2 h-2 rounded-full bg-teal-500 group-hover:scale-150 transition-transform shadow-[0_0_8px_rgba(20,184,166,0.5)]"></span> 
                                   <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{d.businessName}</span>
                                 </button>
                               );
@@ -391,18 +344,18 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
 
                     {/* ANIMATED ARROW */}
                     <div className="mb-10">
-                      <div className="bg-brand-500 p-4 rounded-full text-white shadow-xl shadow-brand-500/30 animate-pulse">
+                      <div className="bg-teal-500 p-4 rounded-full text-white shadow-xl shadow-teal-500/30 animate-pulse">
                         <ArrowRight className="w-6 h-6 rotate-90 md:rotate-90" />
                       </div>
                     </div>
 
                     {/* SMART REPLY CARD */}
                     <div className="bg-[#0f172a] p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md relative border border-white/5">
-                      <div className="absolute top-6 right-8 bg-brand-500 text-[#042f2e] px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-lg shadow-brand-500/20">
-                        <Zap className="w-3 h-3 fill-brand-950" /> MYPRIVATERIDE AI
+                      <div className="absolute top-6 right-8 bg-teal-500 text-[#042f2e] px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 shadow-lg shadow-teal-500/20">
+                        <Zap className="w-3 h-3 fill-teal-950" /> MYPRIVATERIDE AI
                       </div>
                       <div className="flex items-center gap-4 mb-8">
-                        <div className="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center text-[#042f2e] shadow-lg shadow-brand-500/20"><Smartphone /></div>
+                        <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center text-[#042f2e] shadow-lg shadow-teal-500/20"><Smartphone /></div>
                         <div>
                           <p className="text-white font-bold italic text-lg tracking-tight">Harry Singh</p>
                         </div>
@@ -412,7 +365,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                           "Hi John, I've received your request for 5:30 AM tomorrow at Melbourne Airport. I'll be there in the Audi A8. Looking forward to driving you again!"
                         </div>
                         <div className="bg-slate-800/40 p-4 rounded-xl text-slate-400 text-xs font-bold border border-white/5 flex items-center gap-2">
-                          <Check className="w-4 h-4 text-brand-500" />
+                          <Check className="w-4 h-4 text-teal-500" />
                           <span>Travel Tip: 5:30am can be chilly, I'll have the seat heaters ready!</span>
                         </div>
                       </div>
@@ -428,7 +381,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                         { title: 'Instant Confirmation', desc: 'One tap opens WhatsApp with the message already typed. You just hit send.', icon: Zap }
                       ].map((item, idx) => (
                         <li key={idx} className="flex gap-6 group">
-                          <div className="shrink-0 w-16 h-16 bg-white rounded-3xl shadow-sm flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white transition-all"><item.icon className="w-7 h-7" /></div>
+                          <div className="shrink-0 w-16 h-16 bg-white rounded-3xl shadow-sm flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white transition-all"><item.icon className="w-7 h-7" /></div>
                           <div>
                             <p className="text-xl font-black text-slate-900 uppercase italic tracking-tighter mb-2">{item.title}</p>
                             <p className="text-slate-500 font-medium leading-relaxed">{item.desc}</p>
@@ -459,7 +412,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                       { icon: Globe, title: 'CLIENT LOYALTY', desc: 'Owning the relationship means customers call you first, not an app. Build a secure future.' }
                     ].map((benefit, idx) => (
                       <div key={idx} className="bg-[#0f172a]/40 backdrop-blur-md p-14 rounded-[3.5rem] border border-white/5 hover:bg-white/[0.03] transition-all group">
-                        <div className="w-16 h-16 bg-brand-500 rounded-3xl flex items-center justify-center mx-auto mb-10 text-brand-950 shadow-[0_0_20px_rgba(20,184,166,0.2)] group-hover:scale-110 transition-transform">
+                        <div className="w-16 h-16 bg-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-10 text-teal-950 shadow-[0_0_20px_rgba(20,184,166,0.2)] group-hover:scale-110 transition-transform">
                             <benefit.icon className="w-8 h-8" />
                         </div>
                         <h3 className="text-2xl font-black text-white mb-6 uppercase italic tracking-widest">{benefit.title}</h3>
@@ -468,7 +421,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                     ))}
                 </div>
                 <div className="mt-24">
-                  <button onClick={() => setIsPricingOpen(true)} className="px-16 py-6 bg-brand-500 text-brand-950 text-xl font-black rounded-full hover:bg-brand-400 transition-all uppercase tracking-widest shadow-[0_0_30px_rgba(20,184,166,0.3)] active:scale-95">
+                  <button onClick={() => setIsPricingOpen(true)} className="px-16 py-6 bg-teal-500 text-teal-950 text-xl font-black rounded-full hover:bg-teal-400 transition-all uppercase tracking-widest shadow-[0_0_30px_rgba(20,184,166,0.3)] active:scale-95">
                     Start 3-Month Free Trial
                   </button>
                 </div>
@@ -478,7 +431,7 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             <footer className="bg-slate-950 py-12 border-t border-white/5">
               <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
                 <div className="flex items-center gap-3">
-                  <div className="bg-brand-600 p-2 rounded-xl">
+                  <div className="bg-teal-600 p-2 rounded-xl">
                       <Car className="w-5 h-5 text-white" />
                   </div>
                   <span className="font-bold text-white tracking-tight uppercase">MyPrivateRide</span>
