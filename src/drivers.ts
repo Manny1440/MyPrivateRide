@@ -25,8 +25,8 @@ export const drivers: DriverProfile[] = [
     location: "Melbourne CBD",
     themeColor: "teal",
     tagline: "Your reliable executive link.",
-    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Luxury SUV",
+    heroImage: "https://images.unsplash.com/photo-1611859328053-3cbc9f9399f4?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Lexus ES300",
     experienceYears: 8
   },
   {
@@ -38,8 +38,8 @@ export const drivers: DriverProfile[] = [
     location: "Brisbane & Gold Coast",
     themeColor: "teal",
     tagline: "Airport transfers made easy.",
-    heroImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Tesla Model Y",
+    heroImage: "https://images.unsplash.com/photo-1606148585252-e9a6e1330364?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Ford Territory",
     experienceYears: 5
   },
   {
@@ -51,7 +51,7 @@ export const drivers: DriverProfile[] = [
     location: "Melbourne SE Suburbs",
     themeColor: "teal",
     tagline: "First-class service for every passenger.",
-    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Kluger",
     experienceYears: 15
   },
