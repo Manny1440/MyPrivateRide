@@ -3,48 +3,44 @@ import { DriverProfile } from "./types";
 
 export const drivers: DriverProfile[] = [
   {
-    id: "harry", // Legacy URL: ?driver=harry
+    id: "harry",
     businessName: "Harry's PrivateRide",
     driverName: "Harry",
     phone: "+61413948080",
     email: "harchand2000@yahoo.com",
-    location: "Melbourne Airport & South East",
+    location: "Melbourne Metro & Airport",
     themeColor: "teal",
-    tagline: "Your reliable link around Melbourne.",
+    tagline: "Professional. Punctual. Private.",
     heroImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Toyota RAV4",
-    experienceYears: 15,
+    vehicleType: "Premium Sedan",
+    experienceYears: 12,
     specialties: ["Airport Transfers", "Fixed Rates"]
   },
   {
-    id: "harry-s", // Initial URL: ?driver=harry-s
-    businessName: "Harry S. Prestige Hire",
-    driverName: "Harry",
-    surnameInitial: "S",
-    phone: "+61400000004",
-    email: "harry.s@privateride.com.au",
-    location: "Melbourne Eastern Suburbs",
+    id: "gary",
+    businessName: "Gary's PrivateChauffeur",
+    driverName: "Gary",
+    phone: "+61400000002",
+    email: "gary@privateride.com.au",
+    location: "Melbourne CBD",
     themeColor: "teal",
-    tagline: "Luxury travel for the East.",
-    heroImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Audi A8",
-    experienceYears: 6,
-    specialties: ["Wedding Hire", "Winery Tours"]
+    tagline: "Your reliable executive link.",
+    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Luxury SUV",
+    experienceYears: 8
   },
   {
-    id: "harry-singh-west", // Extended Slug URL: ?driver=harry-singh-west
-    businessName: "Singh's West Melbourne Chauffeurs",
-    driverName: "Harry",
-    surname: "Singh",
-    phone: "+61400000006",
-    email: "west.singh@privateride.com.au",
-    location: "Melbourne Western Suburbs",
+    id: "tom",
+    businessName: "Tom's Coast Transfers",
+    driverName: "Tom",
+    phone: "+61400000003",
+    email: "tom@privateride.com.au",
+    location: "Brisbane & Gold Coast",
     themeColor: "teal",
-    tagline: "Your local Western specialist.",
-    heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Tesla Model X",
-    experienceYears: 4,
-    specialties: ["Eco-Luxury", "Tarneit/Truganina Specials"]
+    tagline: "Airport transfers made easy.",
+    heroImage: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop",
+    vehicleType: "Tesla Model Y",
+    experienceYears: 5
   },
   {
     id: "avtar",
@@ -55,10 +51,9 @@ export const drivers: DriverProfile[] = [
     location: "Melbourne SE Suburbs",
     themeColor: "teal",
     tagline: "First-class service for every passenger.",
-    heroImage: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Kluger",
-    experienceYears: 15,
-    specialties: ["Large Groups", "Child Seats"]
+    experienceYears: 15
   },
   {
     id: "inder",
@@ -69,10 +64,8 @@ export const drivers: DriverProfile[] = [
     location: "Melbourne Metro All-Areas",
     themeColor: "teal",
     tagline: "Always ready, always on time.",
-    heroImage: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop",
+    heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Toyota Camry Hybrid",
-    experienceYears: 10,
-    specialties: ["City Tours", "Daily Hire"]
+    experienceYears: 10
   }
 ];
-
