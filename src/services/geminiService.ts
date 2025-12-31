@@ -23,23 +23,27 @@ export const generateBookingConfirmation = async (
   const driverFullName = getDisplayName(driver);
 
   const prompt = `
-    You are an AI booking assistant for "${driver.businessName}".
-    Driver Info: ${driverFullName}, driving a ${driver.vehicleType} with ${driver.experienceYears} years experience.
+    Context: You are the digital dispatch assistant for "${driver.businessName}".
+    Driver: ${driverFullName} (Vehicle: ${driver.vehicleType}).
+    Customer: ${booking.fullName}
+    Ref: ${bookingRef}
+    Trip: From ${booking.pickupLocation} to ${booking.dropoffLocation} on ${booking.date} at ${booking.time}.
     
-    A Customer named "${booking.fullName}" has just submitted a booking request (Ref: ${bookingRef}):
-    - Pickup: ${booking.pickupLocation}
-    - Destination: ${booking.dropoffLocation}
-    - Date: ${booking.date}
-    - Time: ${booking.time}
-    - Notes: ${booking.notes || "None"}
+    TASK: Generate a professional JSON response with two distinct pieces of communication.
+    
+    1. 'confirmationMessage': A message TO THE CUSTOMER (${booking.fullName}) from ${driver.driverName}. 
+       It should be warm and professional. 
+       Example: "Hi ${booking.fullName}, I've received your request for ${booking.date}. I look forward to driving you."
+       (IMPORTANT: Do NOT mention AI or that a draft was prepared. Just be the driver.)
 
-    Please generate a professional JSON response:
-    1. 'confirmationMessage': A message shown on the website TO THE CUSTOMER (${booking.fullName}) from the Driver (${driver.driverName}). (e.g., "Hi ${booking.fullName}, I've received your request...")
-    2. 'estimatedDuration': Realistic travel time estimate.
-    3. 'travelTips': A short tip for the customer.
-    4. 'emailSubject': Email subject for the customer.
-    5. 'emailBody': Full email body for the customer.
-    6. 'driverReplyDraft': A professional WhatsApp reply written FOR THE DRIVER to send BACK to the customer to confirm the booking. It should be polite, mention the vehicle (${driver.vehicleType}), and sound executive.
+    2. 'driverReplyDraft': A pre-written response for the DRIVER to send back to the customer once they open the message on WhatsApp. 
+       It should confirm they are available, mention the ${driver.vehicleType}, and invite any further questions.
+       Example: "Hi ${booking.fullName}, thanks for your booking request ${bookingRef}. I'm available and will see you in my ${driver.vehicleType} at the requested time. Regards, ${driver.driverName}"
+
+    3. 'estimatedDuration': Realistic travel time (e.g., "45 to 60 minutes").
+    4. 'travelTips': A useful tip (e.g., "Traffic can be heavy on Friday nights, I'll aim for a few minutes early").
+    5. 'emailSubject': Professional subject line.
+    6. 'emailBody': Full email body for the customer.
   `;
 
   try {
