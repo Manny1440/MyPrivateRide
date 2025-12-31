@@ -3,13 +3,102 @@ import React, { useState, useEffect } from 'react';
 import BookingForm from './components/BookingForm';
 import { drivers } from './drivers';
 import { DriverProfile } from './types';
-import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, UserCircle, ArrowRight } from 'lucide-react';
+// Added MapPin to the imports from lucide-react to fix missing reference in DriverDashboard
+import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, UserCircle, ArrowRight, Copy, MessageCircle, MapPin } from 'lucide-react';
 
 /* --- UTILS --- */
 const getDisplayName = (driver: DriverProfile) => {
   if (driver.surname) return `${driver.driverName} ${driver.surname}`;
   if (driver.surnameInitial) return `${driver.driverName} ${driver.surnameInitial}.`;
   return driver.driverName;
+};
+
+/* --- PRIVATE DRIVER DASHBOARD --- */
+
+const DriverDashboard: React.FC<{ driver: DriverProfile; data: string; onBack: () => void }> = ({ driver, data, onBack }) => {
+    const [booking, setBooking] = useState<any>(null);
+    const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        try {
+            setBooking(JSON.parse(atob(data)));
+        } catch (e) {
+            console.error("Failed to decode booking data");
+        }
+    }, [data]);
+
+    if (!booking) return <div className="min-h-screen flex items-center justify-center">Loading Booking...</div>;
+
+    const handleCopyAndReply = () => {
+        const rawPhone = booking.clientPhone.replace(/[^0-9]/g, '');
+        // If it starts with 0 and it's Australian, replace with +61
+        const formattedPhone = rawPhone.startsWith('0') ? `61${rawPhone.slice(1)}` : rawPhone;
+        const whatsappLink = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(booking.draft)}`;
+        
+        navigator.clipboard.writeText(booking.draft);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        
+        window.open(whatsappLink, '_blank');
+    };
+
+    return (
+        <div className="min-h-screen bg-slate-50 font-sans p-4 md:p-8">
+            <div className="max-w-xl mx-auto space-y-6">
+                <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-teal-600 p-2 rounded-xl text-white"><Zap className="w-5 h-5" /></div>
+                        <h1 className="font-black uppercase tracking-tighter text-2xl italic">AI Dispatch</h1>
+                    </div>
+                    <button onClick={onBack} className="text-slate-400 font-bold text-xs uppercase hover:text-slate-900 transition-colors">Close</button>
+                </div>
+
+                <div className="bg-white rounded-[2.5rem] p-8 shadow-xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">CLIENT REQUEST {booking.ref}</p>
+                    <h2 className="text-2xl font-black text-slate-900 mb-6">{booking.client}</h2>
+                    
+                    <div className="space-y-4 mb-10">
+                        <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-2xl">
+                            <MapPin className="w-5 h-5 text-teal-600 mt-1" />
+                            <div>
+                                <p className="text-[10px] font-black uppercase text-slate-400">Route</p>
+                                <p className="font-bold text-slate-900 leading-tight">{booking.pickup}</p>
+                                <p className="text-slate-400 font-bold text-xs mt-1">To: {booking.dropoff}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                            <Clock className="w-5 h-5 text-slate-400" />
+                            <div>
+                                <p className="text-[10px] font-black uppercase text-slate-400">Time</p>
+                                <p className="font-bold text-slate-900">{booking.time}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-slate-900 rounded-3xl p-6 relative overflow-hidden border border-white/5 shadow-inner">
+                        <div className="absolute top-4 right-6 bg-teal-500 text-teal-950 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                            <Zap className="w-3 h-3 fill-teal-950" /> AI Draft Reply
+                        </div>
+                        <p className="text-white/40 text-[10px] font-black uppercase tracking-widest mb-4">Manny's Suggested Message</p>
+                        <p className="text-teal-100 font-medium leading-relaxed italic mb-6">
+                            "{booking.draft}"
+                        </p>
+                        <button 
+                            onClick={handleCopyAndReply}
+                            className="w-full bg-teal-500 hover:bg-teal-400 text-teal-950 font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all uppercase tracking-widest text-xs"
+                        >
+                            <MessageCircle className="w-5 h-5" />
+                            {copied ? "COPIED!" : "Confirm & Send to Client"}
+                        </button>
+                    </div>
+                </div>
+
+                <div className="text-center">
+                    <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Built for {driver.businessName}</p>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 /* --- SHARED COMPONENTS --- */
@@ -451,15 +540,25 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
 
 const App: React.FC = () => {
   const [currentDriver, setCurrentDriver] = useState<DriverProfile | null>(null);
+  const [isDriverManageMode, setIsDriverManageMode] = useState(false);
+  const [manageData, setManageData] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const driverSlug = params.get('driver');
+    const action = params.get('action');
+    const data = params.get('data');
+
     if (driverSlug) {
       const foundDriver = drivers.find(d => d.id === driverSlug);
       if (foundDriver) {
         setCurrentDriver(foundDriver);
         document.title = foundDriver.businessName;
+        
+        if (action === 'manage' && data) {
+            setIsDriverManageMode(true);
+            setManageData(data);
+        }
       }
     }
   }, []);
@@ -476,10 +575,23 @@ const App: React.FC = () => {
 
   const handleBackToLanding = () => {
     setCurrentDriver(null);
+    setIsDriverManageMode(false);
     document.title = "MyPrivateRide - Find Your Driver";
     try { window.history.pushState({}, '', window.location.pathname); } catch (e) {}
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const closeManageMode = () => {
+    setIsDriverManageMode(false);
+    setManageData(null);
+    if (currentDriver) {
+        try { window.history.pushState({}, '', `?driver=${currentDriver.id}`); } catch (e) {}
+    }
+  };
+
+  if (isDriverManageMode && currentDriver && manageData) {
+      return <DriverDashboard driver={currentDriver} data={manageData} onBack={closeManageMode} />;
+  }
 
   if (currentDriver) {
     return <DriverApp driver={currentDriver} onBack={handleBackToLanding} />;
