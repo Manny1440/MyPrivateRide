@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { BookingRequest, DriverProfile } from '../types';
 import { generateBookingConfirmation, EnhancedBookingResponse } from '../services/geminiService';
-import { Loader2, CheckCircle, Car, Calendar, MapPin, Users, Mail, Phone, User, Clock, MessageCircle, Zap } from 'lucide-react';
+import { Loader2, CheckCircle, Car, Calendar, MapPin, Users, Mail, Phone, User, Clock, MessageCircle, Zap, ExternalLink } from 'lucide-react';
 
 interface Props {
     driver: DriverProfile;
@@ -51,9 +51,21 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
   };
 
   if (result) {
-    // The message the customer sends to the driver
-    // This includes the AI Action (the draft) for the driver's eyes only
-    const customerToDriverMsg = `🚀 NEW PRIVATE BOOKING ${result.bookingRef}\n\n👤 Client: ${formData.fullName}\n📞 Phone: ${formData.phone}\n📍 From: ${formData.pickupLocation}\n🏁 To: ${formData.dropoffLocation}\n📅 Date: ${formData.date}\n⏰ Time: ${formData.time}\n👥 Pax: ${formData.passengers}\n📝 Notes: ${formData.notes || 'N/A'}\n\n--- DRIVER'S CONFIRMATION DRAFT ---\n(Manny, you can copy & send this back to confirm):\n"${result.driverReplyDraft}"`;
+    // 1. CREATE THE DRIVER-ONLY LINK
+    // We encode the AI results and form data into a link Manny can click
+    const driverActionData = btoa(JSON.stringify({
+        ref: result.bookingRef,
+        client: formData.fullName,
+        clientPhone: formData.phone,
+        draft: result.driverReplyDraft,
+        pickup: formData.pickupLocation,
+        dropoff: formData.dropoffLocation,
+        time: `${formData.date} @ ${formData.time}`
+    }));
+    const driverDashboardUrl = `${window.location.origin}${window.location.pathname}?driver=${driver.id}&action=manage&data=${driverActionData}`;
+
+    // 2. CLEAN CUSTOMER MESSAGE (No AI draft here)
+    const customerToDriverMsg = `🚀 NEW PRIVATE BOOKING ${result.bookingRef}\n\n👤 Client: ${formData.fullName}\n📞 Phone: ${formData.phone}\n📍 From: ${formData.pickupLocation}\n🏁 To: ${formData.dropoffLocation}\n📅 When: ${formData.date} @ ${formData.time}\n👥 Pax: ${formData.passengers}\n📝 Notes: ${formData.notes || 'N/A'}\n\n--- DRIVER DASHBOARD ---\n(Manny, click to view AI Smart Reply):\n${driverDashboardUrl}`;
     
     const rawPhone = driver.phone.replace(/[^0-9]/g, '');
     const whatsappLink = `https://wa.me/${rawPhone}?text=${encodeURIComponent(customerToDriverMsg)}`;
@@ -66,29 +78,29 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
             <CheckCircle className="w-10 h-10 text-emerald-500" />
           </div>
           <h2 className="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Request Generated!</h2>
-          <div className="mt-4 p-4 bg-teal-50 rounded-2xl border border-teal-100">
+          <div className="mt-4 p-5 bg-teal-50 rounded-2xl border border-teal-100">
              <p className="text-teal-900 text-lg font-bold leading-relaxed">{result.confirmationMessage}</p>
           </div>
-          <span className="inline-block mt-4 bg-slate-100 px-4 py-1.5 rounded-full text-xs font-black text-slate-400 uppercase tracking-widest">Ref: {result.bookingRef}</span>
+          <span className="inline-block mt-4 bg-slate-100 px-4 py-1.5 rounded-full text-[10px] font-black text-slate-400 uppercase tracking-widest">Ref: {result.bookingRef}</span>
         </div>
 
         <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 mb-8">
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                <Car className="w-3 h-3" /> Trip Summary
+                <Car className="w-3 h-3" /> Trip Details
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                 <div className="flex items-center gap-3">
-                    <MapPin className="w-4 h-4 text-teal-500" />
+                    <MapPin className="w-5 h-5 text-teal-500" />
                     <div>
                         <p className="text-[10px] text-slate-400 font-bold uppercase">Pickup</p>
-                        <p className="font-bold text-slate-900">{formData.pickupLocation}</p>
+                        <p className="font-bold text-slate-900 leading-tight">{formData.pickupLocation}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Calendar className="w-4 h-4 text-slate-400" />
+                    <Calendar className="w-5 h-5 text-slate-400" />
                     <div>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase">Time</p>
-                        <p className="font-bold text-slate-900">{formData.date} @ {formData.time}</p>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase">Schedule</p>
+                        <p className="font-bold text-slate-900 leading-tight">{formData.date} at {formData.time}</p>
                     </div>
                 </div>
             </div>
@@ -96,7 +108,7 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
 
         <div className="space-y-4">
             <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] mb-4">
-                Click below to notify {driver.driverName}
+                Notify {driver.driverName} to secure your ride
             </p>
             
             <div className="flex flex-col gap-3">
@@ -197,7 +209,7 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
             {loading ? <><Loader2 className="animate-spin w-6 h-6 text-teal-500" /> Calculating...</> : <>Secure Booking Request</>}
         </button>
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-center text-slate-400">
-            AI-Powered Direct Driver Link
+            Professional Direct Driver Link
         </p>
       </form>
     </div>
