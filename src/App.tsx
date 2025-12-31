@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import BookingForm from './components/BookingForm';
 import { drivers } from './drivers';
 import { DriverProfile } from './types';
-import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, QrCode, Download, Search, MapPin, Briefcase, UserCircle, BadgeCheck } from 'lucide-react';
+import { Star, Shield, Clock, Smile, Menu, X, Phone, Mail, Check, Zap, Globe, Smartphone, Car, ArrowLeft, WifiOff, QrCode, Download, Search, MapPin, Briefcase, UserCircle, BadgeCheck, Send, MessageSquare, ArrowRight } from 'lucide-react';
 
 /* --- UTILS --- */
 const getDisplayName = (driver: DriverProfile) => {
@@ -56,8 +56,8 @@ const PricingModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
           <div className="px-6 py-8 sm:p-10">
             <div className="flex justify-between items-start mb-10">
               <div>
-                <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter italic">Grow Your Empire</h3>
-                <p className="text-slate-500 max-w-md">Your customers. Your brand. Your rules. The ultimate platform for independent professional drivers.</p>
+                <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tighter italic">Scale Your Business</h3>
+                <p className="text-slate-500 max-w-md">The professional standard for independent drivers who want to own their client list.</p>
                 <div className="mt-4 inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[10px] font-black tracking-widest border border-emerald-100 uppercase">
                   <Zap className="w-3 h-3 fill-emerald-700" /> PROMO: 3 MONTHS FREE TRIAL
                 </div>
@@ -170,10 +170,10 @@ const DriverApp: React.FC<{ driver: DriverProfile; onBack: () => void }> = ({ dr
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <div className="bg-brand-500 p-2 rounded-xl">
+              <div className="bg-brand-500 p-2 rounded-xl shadow-lg shadow-brand-500/20">
                 <Car className="w-6 h-6 text-brand-950" />
               </div>
-              <span className="font-black text-xl tracking-tight uppercase">{driver.businessName}</span>
+              <span className="font-black text-xl tracking-tight uppercase italic">{driver.businessName}</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-10">
@@ -315,11 +315,11 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
     }, [searchTerm]);
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+        <div className="min-h-screen bg-white text-slate-900 font-sans">
             <OfflineBanner />
             <PricingModal isOpen={isPricingOpen} onClose={() => setIsPricingOpen(false)} />
             
-            <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+            <nav className="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="bg-brand-600 p-2.5 rounded-2xl shadow-lg shadow-brand-200">
@@ -333,27 +333,129 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                 </div>
             </nav>
 
-            <header className="pt-24 pb-16 px-4 text-center bg-white border-b border-slate-50">
+            {/* --- HERO SECTION (RESTORED FROM SCREENSHOT) --- */}
+            <header className="relative pt-24 pb-20 px-4 text-center">
                 <div className="max-w-4xl mx-auto">
-                    <div className="inline-block bg-brand-50 text-brand-700 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-brand-100">
-                      Australia's Private Driver Network 🇦🇺
+                    <div className="inline-block bg-brand-50 text-brand-700 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-10 border border-brand-100">
+                      For Professional Drivers in Australia AU
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-black text-slate-900 leading-[0.9] tracking-tighter uppercase mb-10 italic">
-                      Book Your <span className="text-brand-600 underline decoration-brand-200 underline-offset-8">Preferred</span> Driver Directly.
+                    <h1 className="text-6xl md:text-[5.5rem] font-black text-slate-900 leading-[0.9] tracking-tighter uppercase mb-10">
+                      Your Own <span className="text-brand-500">Private Booking App</span><br />
+                      in 60 Seconds.
                     </h1>
-                    <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
-                      Professional, reliable, and commission-free. Find your trusted local driver and book your next transfer in seconds.
+                    <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
+                      Stop losing 30% to Uber. Give your private clients a professional way to book you directly. Includes AI confirmations and WhatsApp integration.
                     </p>
+                    <div className="flex justify-center mb-20">
+                      <button onClick={() => setIsPricingOpen(true)} className="bg-brand-600 text-white px-12 py-6 rounded-2xl font-black text-lg uppercase tracking-widest hover:bg-brand-700 transition-all shadow-2xl shadow-brand-500/20 active:scale-95">
+                        Create My App Now
+                      </button>
+                    </div>
+
+                    <div className="mt-8">
+                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-6">SEE LIVE DEMOS</p>
+                        <div className="flex justify-center gap-4 flex-wrap">
+                            {['harry', 'gary', 'tom'].map(id => (
+                              <button 
+                                key={id}
+                                onClick={() => onDriverSelect(id)} 
+                                className="flex items-center gap-2 bg-slate-50 border border-slate-100 px-6 py-3 rounded-full hover:bg-white hover:border-brand-500 transition-all cursor-pointer group shadow-sm"
+                              >
+                                <span className="w-2 h-2 rounded-full bg-brand-500 group-hover:scale-150 transition-transform shadow-[0_0_8px_rgba(20,184,166,0.5)]"></span> 
+                                <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">{drivers.find(d => d.id === id)?.businessName}</span>
+                              </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <div className="max-w-5xl mx-auto px-4 -mt-10 mb-24 relative z-10">
+            {/* --- AI SHOWCASE SECTION (NEW) --- */}
+            <section className="bg-slate-50 py-32 border-y border-slate-100">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center mb-20">
+                  <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic mb-6">AI confirmations that build trust.</h2>
+                  <p className="text-slate-500 font-medium max-w-xl mx-auto">Impress your clients with instant, professional responses generated specifically for your business.</p>
+                </div>
+
+                <div className="grid md:grid-cols-12 gap-12 items-center">
+                  <div className="md:col-span-5 space-y-6">
+                    <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100 relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 -mr-16 -mt-16 rounded-full group-hover:scale-110 transition-transform"></div>
+                      <div className="flex items-center gap-4 mb-6 relative">
+                        <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center"><UserCircle className="text-slate-400" /></div>
+                        <div>
+                          <p className="text-xs font-black uppercase text-slate-400 tracking-widest">Client Request</p>
+                          <p className="font-bold text-slate-900">John Smith</p>
+                        </div>
+                      </div>
+                      <p className="text-slate-600 font-medium leading-relaxed italic border-l-4 border-slate-200 pl-4 py-2 bg-slate-50/50 rounded-r-xl">
+                        "Hi Harry, can you pick me up from Melb Airport tomorrow around 5:30am? Just me, flying to Sydney."
+                      </p>
+                    </div>
+
+                    <div className="flex justify-center">
+                      <div className="bg-brand-500 p-4 rounded-full text-white animate-bounce shadow-xl shadow-brand-500/30">
+                        <ArrowRight className="w-6 h-6 rotate-90 md:rotate-0" />
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden border border-white/5">
+                      <div className="absolute top-4 right-8 bg-brand-500 text-brand-950 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                        <Zap className="w-3 h-3 fill-brand-950" /> MyPrivateRide AI
+                      </div>
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center"><Smartphone className="text-brand-950" /></div>
+                        <div>
+                          <p className="text-xs font-black uppercase text-brand-400 tracking-widest">WhatsApp Auto-Reply</p>
+                          <p className="font-bold text-white italic">Harry Singh</p>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="bg-white/10 p-4 rounded-2xl rounded-bl-none text-white text-sm font-medium leading-relaxed border border-white/5">
+                          "Hi John, I've received your request for 5:30 AM tomorrow at Melbourne Airport. I'll be there in the Audi A8. Looking forward to driving you again!"
+                        </div>
+                        <div className="bg-white/10 p-3 rounded-2xl rounded-bl-none text-brand-400 text-xs font-bold border border-white/5 inline-block">
+                          ✅ Travel Tip: 5:30am can be chilly, I'll have the seat heaters ready!
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="md:col-span-7 md:pl-16">
+                    <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tighter italic mb-8">Professionalism on Autopilot.</h3>
+                    <ul className="space-y-8">
+                      {[
+                        { title: 'Zero Manual Work', desc: 'The AI understands dates, times, and flight details instantly.', icon: Clock },
+                        { title: 'Fleet-Grade Branding', desc: 'Impress your corporate clients with 5-star digital communication.', icon: Shield },
+                        { title: 'Instant Confirmation', desc: 'Never lose a lead to another driver while you are behind the wheel.', icon: Zap }
+                      ].map((item, idx) => (
+                        <li key={idx} className="flex gap-6">
+                          <div className="shrink-0 w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center border border-slate-100"><item.icon className="text-brand-600 w-7 h-7" /></div>
+                          <div>
+                            <p className="text-xl font-black text-slate-900 uppercase italic tracking-tighter mb-2">{item.title}</p>
+                            <p className="text-slate-500 font-medium leading-relaxed">{item.desc}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* --- CUSTOMER SEARCH / DIRECTORY --- */}
+            <div className="max-w-5xl mx-auto px-4 mt-20 mb-32 relative z-10" id="driver-search">
+                <div className="text-center mb-10">
+                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-2">Looking for a ride?</p>
+                   <h2 className="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Find your local driver</h2>
+                </div>
                 <div className="relative group">
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-6 h-6 transition-colors group-focus-within:text-brand-600" />
                     <input 
                         type="text" 
-                        placeholder="Search by name, location, or car..."
-                        className="w-full pl-16 pr-8 py-8 bg-white rounded-[2.5rem] shadow-2xl border-none focus:ring-4 focus:ring-brand-500/10 text-xl font-medium placeholder:text-slate-300 transition-all"
+                        placeholder="Search by location, car type, or driver..."
+                        className="w-full pl-16 pr-8 py-8 bg-white rounded-[2.5rem] shadow-2xl border-none focus:ring-4 focus:ring-brand-500/10 text-xl font-medium placeholder:text-slate-300 transition-all border border-slate-50"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -362,10 +464,6 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
             
             <section className="pb-32 px-4">
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between mb-12">
-                      <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Verified Professional Network ({filteredDrivers.length})</h2>
-                    </div>
-                    
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredDrivers.map((d) => (
                           <button 
@@ -377,9 +475,6 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                               <img src={d.heroImage} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={d.businessName} />
                               <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 flex items-center gap-1.5 border border-slate-100 shadow-sm">
                                 <MapPin className="w-3 h-3 text-brand-600" /> {d.location}
-                              </div>
-                              <div className="absolute top-4 right-4 bg-brand-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5 shadow-lg">
-                                  <BadgeCheck className="w-3 h-3" /> ID: {getDisplayName(d)}
                               </div>
                             </div>
                             <div className="p-10">
@@ -408,15 +503,6 @@ const LandingPage: React.FC<{ onDriverSelect: (id: string) => void }> = ({ onDri
                           </button>
                         ))}
                     </div>
-                    
-                    {filteredDrivers.length === 0 && (
-                      <div className="text-center py-24 bg-white rounded-[4rem] border-2 border-dashed border-slate-100">
-                        <Smile className="w-20 h-20 text-slate-100 mx-auto mb-6" />
-                        <h3 className="text-2xl font-black text-slate-400 italic uppercase tracking-tighter">No drivers found.</h3>
-                        <p className="text-slate-300 font-medium mb-8">Try searching for a city or car type.</p>
-                        <button onClick={() => setSearchTerm('')} className="text-brand-600 font-black uppercase text-xs tracking-widest hover:underline">Clear Filters</button>
-                      </div>
-                    )}
                 </div>
             </section>
 
