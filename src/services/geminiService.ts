@@ -4,46 +4,32 @@ import { BookingRequest, BookingResponse, DriverProfile } from "../types";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-const getDisplayName = (driver: DriverProfile) => {
-  if (driver.surname) return `${driver.driverName} ${driver.surname}`;
-  if (driver.surnameInitial) return `${driver.driverName} ${driver.surnameInitial}.`;
-  return driver.driverName;
-};
-
-export interface EnhancedBookingResponse extends BookingResponse {
-  driverReplyDraft: string;
-}
-
 export const generateBookingConfirmation = async (
   booking: BookingRequest,
   driver: DriverProfile,
   bookingRef: string
-): Promise<EnhancedBookingResponse> => {
+): Promise<BookingResponse> => {
   const modelId = "gemini-3-flash-preview";
-  const driverFullName = getDisplayName(driver);
 
   const prompt = `
-    Context: You are the digital dispatch assistant for "${driver.businessName}".
-    Driver: ${driverFullName} (Vehicle: ${driver.vehicleType}).
-    Customer: ${booking.fullName}
-    Ref: ${bookingRef}
-    Trip: From ${booking.pickupLocation} to ${booking.dropoffLocation} on ${booking.date} at ${booking.time}.
+    You are an AI booking assistant for "${driver.businessName}", a private driver service run by ${driver.driverName}.
+    The driver drives a ${driver.vehicleType}.
     
-    TASK: Generate a professional JSON response with two distinct pieces of communication.
-    
-    1. 'confirmationMessage': A message TO THE CUSTOMER (${booking.fullName}) from ${driver.driverName}. 
-       It should be warm and professional. 
-       Example: "Hi ${booking.fullName}, I've received your request for ${booking.date}. I look forward to driving you."
-       (IMPORTANT: Do NOT mention AI or that a draft was prepared. Just be the driver.)
+    A customer has just submitted a booking request (Ref: ${bookingRef}) with the following details:
+    - Name: ${booking.fullName}
+    - From: ${booking.pickupLocation}
+    - To: ${booking.dropoffLocation}
+    - Date: ${booking.date}
+    - Time: ${booking.time}
+    - Passengers: ${booking.passengers}
+    - Notes: ${booking.notes || "None"}
 
-    2. 'driverReplyDraft': A pre-written response for the DRIVER to send back to the customer once they open the message on WhatsApp. 
-       It should confirm they are available, mention the ${driver.vehicleType}, and invite any further questions.
-       Example: "Hi ${booking.fullName}, thanks for your booking request ${bookingRef}. I'm available and will see you in my ${driver.vehicleType} at the requested time. Regards, ${driver.driverName}"
-
-    3. 'estimatedDuration': Realistic travel time (e.g., "45 to 60 minutes").
-    4. 'travelTips': A useful tip (e.g., "Traffic can be heavy on Friday nights, I'll aim for a few minutes early").
-    5. 'emailSubject': Professional subject line.
-    6. 'emailBody': Full email body for the customer.
+    Please generate a professional JSON response:
+    1. 'confirmationMessage': A friendly, short web UI success message (max 2 sentences) from ${driver.driverName} to the customer.
+    2. 'estimatedDuration': A realistic travel time estimate (e.g., "Approx 45-50 mins").
+    3. 'travelTips': One short, helpful travel tip.
+    4. 'emailSubject': A professional subject line including Ref #${bookingRef}.
+    5. 'emailBody': A polite email body confirming the request receipt.
   `;
 
   try {
@@ -60,9 +46,9 @@ export const generateBookingConfirmation = async (
             travelTips: { type: Type.STRING },
             emailSubject: { type: Type.STRING },
             emailBody: { type: Type.STRING },
-            driverReplyDraft: { type: Type.STRING },
+            bookingRef: { type: Type.STRING },
           },
-          required: ["confirmationMessage", "estimatedDuration", "driverReplyDraft"],
+          required: ["confirmationMessage", "estimatedDuration", "emailSubject", "emailBody"],
         },
       },
     });
@@ -75,12 +61,11 @@ export const generateBookingConfirmation = async (
   } catch (error) {
     console.error("Gemini API Error:", error);
     return {
-      confirmationMessage: `Hi ${booking.fullName}, I've received your request! I'll review the details and contact you shortly.`,
+      confirmationMessage: `Booking request received! ${driver.driverName} will contact you shortly to confirm.`,
       estimatedDuration: "Estimated upon confirmation",
-      travelTips: "Keep your phone handy for updates.",
-      emailSubject: `Booking Request ${bookingRef}`,
-      emailBody: `Hi ${booking.fullName}, I've received your request. Regards, ${driver.driverName}`,
-      driverReplyDraft: `Hi ${booking.fullName}, thanks for your booking request ${bookingRef}. I'm available and will see you at ${booking.pickupLocation} in my ${driver.vehicleType}.`,
+      travelTips: "Ensure you have your phone handy for updates.",
+      emailSubject: `Booking Request ${bookingRef} - ${driver.businessName}`,
+      emailBody: `Hi ${booking.fullName},\n\nI've received your booking request for ${booking.date}. I'll review it and get back to you shortly.\n\nBest,\n${driver.driverName}`,
       bookingRef
     };
   }
