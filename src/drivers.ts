@@ -8,7 +8,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Manny",
     phone: "+61430488315",
     email: "s.manny1440@gmail.com",
-    location: "Melbourne Metro & Airport",
+    location: "Melbourne Metro, South East & Airport",
     themeColor: "teal",
     tagline: "Your journey, my priority. Professional transfers.",
     heroImage: "https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=2072&auto=format&fit=crop",
@@ -22,7 +22,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Harry",
     phone: "+61413948080",
     email: "harchand2000@yahoo.com",
-    location: "Melbourne Metro & Airport",
+    location: "Melbourne South East & Airport",
     themeColor: "teal",
     tagline: "Professional. Punctual. Private.",
     heroImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop",
@@ -49,7 +49,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Avtar",
     phone: "+61402496021",
     email: "avtar@gmail.com",
-    location: "Melbourne SE Suburbs",
+    location: "Melbourne North West Suburbs",
     themeColor: "teal",
     tagline: "First-class service for every passenger.",
     heroImage: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop",
@@ -70,5 +70,6 @@ export const drivers: DriverProfile[] = [
     experienceYears: 10
   }
 ];
+
 
 
