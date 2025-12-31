@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { BookingRequest, DriverProfile } from '../types';
 import { generateBookingConfirmation, EnhancedBookingResponse } from '../services/geminiService';
-// Added Users to the imports to fix the compilation error
-import { Loader2, CheckCircle, Car, Calendar, MapPin, Users, Mail, Phone, User, Clock, MessageCircle, Copy, Zap } from 'lucide-react';
+import { Loader2, CheckCircle, Car, Calendar, MapPin, Users, Mail, Phone, User, Clock, MessageCircle, Zap } from 'lucide-react';
 
 interface Props {
     driver: DriverProfile;
@@ -53,7 +52,8 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
 
   if (result) {
     // The message the customer sends to the driver
-    const customerToDriverMsg = `🚀 NEW PRIVATE BOOKING ${result.bookingRef}\n\n👤 Client: ${formData.fullName}\n📞 Phone: ${formData.phone}\n📍 From: ${formData.pickupLocation}\n🏁 To: ${formData.dropoffLocation}\n📅 Date: ${formData.date}\n⏰ Time: ${formData.time}\n\n--- AI SMART REPLY FOR DRIVER ---\n(Copy & Send back to Client to confirm):\n"${result.driverReplyDraft}"`;
+    // This includes the AI Action (the draft) for the driver's eyes only
+    const customerToDriverMsg = `🚀 NEW PRIVATE BOOKING ${result.bookingRef}\n\n👤 Client: ${formData.fullName}\n📞 Phone: ${formData.phone}\n📍 From: ${formData.pickupLocation}\n🏁 To: ${formData.dropoffLocation}\n📅 Date: ${formData.date}\n⏰ Time: ${formData.time}\n👥 Pax: ${formData.passengers}\n📝 Notes: ${formData.notes || 'N/A'}\n\n--- DRIVER'S CONFIRMATION DRAFT ---\n(Manny, you can copy & send this back to confirm):\n"${result.driverReplyDraft}"`;
     
     const rawPhone = driver.phone.replace(/[^0-9]/g, '');
     const whatsappLink = `https://wa.me/${rawPhone}?text=${encodeURIComponent(customerToDriverMsg)}`;
@@ -66,41 +66,37 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
             <CheckCircle className="w-10 h-10 text-emerald-500" />
           </div>
           <h2 className="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Request Generated!</h2>
-          <p className="text-slate-500 mt-3 text-lg font-medium leading-relaxed px-4">{result.confirmationMessage}</p>
+          <div className="mt-4 p-4 bg-teal-50 rounded-2xl border border-teal-100">
+             <p className="text-teal-900 text-lg font-bold leading-relaxed">{result.confirmationMessage}</p>
+          </div>
           <span className="inline-block mt-4 bg-slate-100 px-4 py-1.5 rounded-full text-xs font-black text-slate-400 uppercase tracking-widest">Ref: {result.bookingRef}</span>
         </div>
 
-        {/* AI PREVIEW FOR THE CUSTOMER (SO THEY KNOW WHAT THEY ARE SENDING) */}
-        <div className="bg-slate-900 p-6 rounded-3xl mb-8 relative overflow-hidden border border-white/5 shadow-xl">
-            <div className="absolute top-4 right-6 bg-teal-500 text-teal-950 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
-                <Zap className="w-3 h-3 fill-teal-950" /> AI Smart Draft
-            </div>
-            <h3 className="text-white font-bold text-sm mb-4 uppercase tracking-widest opacity-50 flex items-center gap-2">
-                <MessageCircle className="w-4 h-4" /> Message for {driver.driverName}
-            </h3>
-            <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                <p className="text-slate-300 text-sm font-medium leading-relaxed italic">
-                    "I have prepared your booking details and a <span className="text-teal-400">professional reply draft</span> for {driver.driverName} to use."
-                </p>
-            </div>
-        </div>
-
         <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 mb-8">
-            <div className="grid grid-cols-2 gap-6 text-sm">
-                <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Est. Duration</p>
-                    <p className="font-bold text-slate-900">{result.estimatedDuration}</p>
+            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <Car className="w-3 h-3" /> Trip Summary
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center gap-3">
+                    <MapPin className="w-4 h-4 text-teal-500" />
+                    <div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase">Pickup</p>
+                        <p className="font-bold text-slate-900">{formData.pickupLocation}</p>
+                    </div>
                 </div>
-                <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Vehicle</p>
-                    <p className="font-bold text-slate-900">{driver.vehicleType}</p>
+                <div className="flex items-center gap-3">
+                    <Calendar className="w-4 h-4 text-slate-400" />
+                    <div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase">Time</p>
+                        <p className="font-bold text-slate-900">{formData.date} @ {formData.time}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div className="space-y-4">
             <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] mb-4">
-                Choose your confirmation method
+                Click below to notify {driver.driverName}
             </p>
             
             <div className="flex flex-col gap-3">
@@ -181,7 +177,6 @@ const BookingForm: React.FC<Props> = ({ driver }) => {
                     className="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-teal-500 outline-none transition-all font-medium" />
             </div>
              <div className="relative">
-                {/* Fixed the missing 'Users' icon by adding it to the imports above */}
                 <Users className="absolute left-4 top-4 text-slate-300 w-5 h-5" />
                 <select name="passengers" value={formData.passengers} onChange={handleChange}
                     className="w-full pl-12 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-teal-500 outline-none transition-all font-medium appearance-none">
