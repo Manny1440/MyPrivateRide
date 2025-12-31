@@ -3,6 +3,20 @@ import { DriverProfile } from "./types";
 
 export const drivers: DriverProfile[] = [
   {
+    id: "manny",
+    businessName: "Manny's PrivateRide",
+    driverName: "Manny",
+    phone: "+61430488315",
+    email: "s.manny1440@gmail.com",
+    location: "Melbourne Metro & Airport",
+    themeColor: "teal",
+    tagline: "Your journey, my priority. Professional transfers.",
+    heroImage: "https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=2072&auto=format&fit=crop",
+    vehicleType: "Ford Mondeo",
+    experienceYears: 10,
+    specialties: ["Corporate Travel", "Airport Specialist"]
+  },
+  {
     id: "harry",
     businessName: "Harry's PrivateRide",
     driverName: "Harry",
@@ -28,19 +42,6 @@ export const drivers: DriverProfile[] = [
     heroImage: "https://images.unsplash.com/photo-1611859328053-3cbc9f9399f4?q=80&w=2070&auto=format&fit=crop",
     vehicleType: "Lexus ES300",
     experienceYears: 8
-  },
-  {
-    id: "tom",
-    businessName: "Tom's Coast Transfers",
-    driverName: "Tom",
-    phone: "+61400000003",
-    email: "tom@privateride.com.au",
-    location: "Brisbane & Gold Coast",
-    themeColor: "teal",
-    tagline: "Airport transfers made easy.",
-    heroImage: "https://images.unsplash.com/photo-1606148585252-e9a6e1330364?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Ford Territory",
-    experienceYears: 5
   },
   {
     id: "avtar",
@@ -69,3 +70,5 @@ export const drivers: DriverProfile[] = [
     experienceYears: 10
   }
 ];
+
+
