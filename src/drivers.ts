@@ -4,16 +4,16 @@ import { DriverProfile } from "./types";
 export const drivers: DriverProfile[] = [
   {
     id: "harry", // Legacy URL: ?driver=harry
-    businessName: "Harry's Airport Express",
+    businessName: "Harry's PrivateRide",
     driverName: "Harry",
     phone: "+61413948080",
     email: "harchand2000@yahoo.com",
-    location: "Melbourne Airport & North",
+    location: "Melbourne Airport & South East",
     themeColor: "teal",
-    tagline: "Your reliable link to Tullamarine.",
+    tagline: "Your reliable link around Melbourne.",
     heroImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Premium Sedan",
-    experienceYears: 12,
+    vehicleType: "Toyota RAV4",
+    experienceYears: 15,
     specialties: ["Airport Transfers", "Fixed Rates"]
   },
   {
@@ -30,21 +30,6 @@ export const drivers: DriverProfile[] = [
     vehicleType: "Audi A8",
     experienceYears: 6,
     specialties: ["Wedding Hire", "Winery Tours"]
-  },
-  {
-    id: "harry-singh", // Full Surname URL: ?driver=harry-singh
-    businessName: "Harry Singh's Luxury Travels",
-    driverName: "Harry",
-    surname: "Singh",
-    phone: "+61400000005",
-    email: "h.singh@privateride.com.au",
-    location: "Melbourne Metro All-Areas",
-    themeColor: "teal",
-    tagline: "Elite chauffeur service.",
-    heroImage: "https://images.unsplash.com/photo-1562141961-b5d1855d7f28?q=80&w=2070&auto=format&fit=crop",
-    vehicleType: "Mercedes-Benz V-Class",
-    experienceYears: 9,
-    specialties: ["Corporate Travel", "V-Class 7 Seater"]
   },
   {
     id: "harry-singh-west", // Extended Slug URL: ?driver=harry-singh-west
@@ -90,3 +75,4 @@ export const drivers: DriverProfile[] = [
     specialties: ["City Tours", "Daily Hire"]
   }
 ];
+
