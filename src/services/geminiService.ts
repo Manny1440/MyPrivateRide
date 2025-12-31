@@ -10,36 +10,36 @@ const getDisplayName = (driver: DriverProfile) => {
   return driver.driverName;
 };
 
+export interface EnhancedBookingResponse extends BookingResponse {
+  driverReplyDraft: string;
+}
+
 export const generateBookingConfirmation = async (
   booking: BookingRequest,
   driver: DriverProfile,
   bookingRef: string
-): Promise<BookingResponse> => {
+): Promise<EnhancedBookingResponse> => {
   const modelId = "gemini-3-flash-preview";
-  const fullName = getDisplayName(driver);
+  const driverFullName = getDisplayName(driver);
 
   const prompt = `
-    You are an AI booking assistant for "${driver.businessName}", a professional private driver service.
-    Driver: ${fullName}
-    Vehicle: ${driver.vehicleType}
-    Service Area: ${driver.location}
-    Experience: ${driver.experienceYears} years
-    Specialties: ${driver.specialties?.join(", ")}
+    You are an AI booking assistant for "${driver.businessName}".
+    Driver Info: ${driverFullName}, driving a ${driver.vehicleType} with ${driver.experienceYears} years experience.
     
-    A customer (${booking.fullName}) has submitted a booking request (Ref: ${bookingRef}):
+    A Customer named "${booking.fullName}" has just submitted a booking request (Ref: ${bookingRef}):
     - Pickup: ${booking.pickupLocation}
     - Destination: ${booking.dropoffLocation}
     - Date: ${booking.date}
     - Time: ${booking.time}
-    - Passengers: ${booking.passengers}
     - Notes: ${booking.notes || "None"}
 
     Please generate a professional JSON response:
-    1. 'confirmationMessage': A warm, trust-building success message (max 2 sentences) written in ${fullName}'s voice.
-    2. 'estimatedDuration': A realistic estimate of travel time between the two locations.
-    3. 'travelTips': One professional tip based on the ${driver.vehicleType} or the specific trip.
-    4. 'emailSubject': A high-end email subject line including Ref #${bookingRef}.
-    5. 'emailBody': A formal, beautifully written email confirmation. Use ${fullName} in the signature.
+    1. 'confirmationMessage': A message shown on the website TO THE CUSTOMER (${booking.fullName}) from the Driver (${driver.driverName}). (e.g., "Hi ${booking.fullName}, I've received your request...")
+    2. 'estimatedDuration': Realistic travel time estimate.
+    3. 'travelTips': A short tip for the customer.
+    4. 'emailSubject': Email subject for the customer.
+    5. 'emailBody': Full email body for the customer.
+    6. 'driverReplyDraft': A professional WhatsApp reply written FOR THE DRIVER to send BACK to the customer to confirm the booking. It should be polite, mention the vehicle (${driver.vehicleType}), and sound executive.
   `;
 
   try {
@@ -56,9 +56,9 @@ export const generateBookingConfirmation = async (
             travelTips: { type: Type.STRING },
             emailSubject: { type: Type.STRING },
             emailBody: { type: Type.STRING },
-            bookingRef: { type: Type.STRING },
+            driverReplyDraft: { type: Type.STRING },
           },
-          required: ["confirmationMessage", "estimatedDuration", "travelTips", "emailSubject", "emailBody"],
+          required: ["confirmationMessage", "estimatedDuration", "driverReplyDraft"],
         },
       },
     });
@@ -71,11 +71,12 @@ export const generateBookingConfirmation = async (
   } catch (error) {
     console.error("Gemini API Error:", error);
     return {
-      confirmationMessage: `Request received! ${fullName} will review your trip to ${booking.dropoffLocation} and contact you shortly.`,
+      confirmationMessage: `Hi ${booking.fullName}, I've received your request! I'll review the details and contact you shortly.`,
       estimatedDuration: "Estimated upon confirmation",
-      travelTips: "Keep your phone handy for arrival updates.",
-      emailSubject: `Booking Request ${bookingRef} - ${driver.businessName}`,
-      emailBody: `Hi ${booking.fullName},\n\nThanks for choosing ${driver.businessName}. I've received your request for a ride from ${booking.pickupLocation} on ${booking.date}. I will confirm availability shortly.\n\nBest regards,\n${fullName}`,
+      travelTips: "Keep your phone handy for updates.",
+      emailSubject: `Booking Request ${bookingRef}`,
+      emailBody: `Hi ${booking.fullName}, I've received your request. Regards, ${driver.driverName}`,
+      driverReplyDraft: `Hi ${booking.fullName}, thanks for your booking request ${bookingRef}. I'm available and will see you at ${booking.pickupLocation} in my ${driver.vehicleType}.`,
       bookingRef
     };
   }
