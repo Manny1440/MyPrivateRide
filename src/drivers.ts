@@ -48,8 +48,8 @@ export const drivers: DriverProfile[] = [
     businessName: "Avtar's Executive Travel",
     driverName: "Avtar",
     phone: "+61402496021",
-    email: "avtar@gmail.com",
-    location: "Melbourne North West Suburbs",
+    email: "happyavtar1112@yahoo.com.au",
+    location: "Melbourne North West Suburbs & Airport",
     themeColor: "teal",
     tagline: "First-class service for every passenger.",
     heroImage: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop",
@@ -62,7 +62,7 @@ export const drivers: DriverProfile[] = [
     driverName: "Inder",
     phone: "+61421914654",
     email: "ipsk2005@yahoo.com",
-    location: "Melbourne Metro All-Areas",
+    location: "Melbourne Metro All-Areas & Airport",
     themeColor: "teal",
     tagline: "Always ready, always on time.",
     heroImage: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070&auto=format&fit=crop",
@@ -70,6 +70,7 @@ export const drivers: DriverProfile[] = [
     experienceYears: 10
   }
 ];
+
 
 
 
